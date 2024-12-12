@@ -6,6 +6,9 @@ The Plasma Arc Engine aims to develop a sophisticated and efficient plasma arc s
 
 By utilizing WebGPU, we take advantage of its advanced graphics and compute capabilities to run our simulation efficiently on a wide range of devices. This allows us to offload heavy computations to the GPU, achieving smoother and more responsive visualizations. The modular design aligns with industry standards like Unreal Engine 5, ensuring familiarity and ease of use for developers.
 
+## Live Demo
+You can find a live demo of the engine here: [Plasma Arc Engine Demo](https://huggingface.co/spaces/p3nGu1nZz/plasma-arc)
+
 ## Features
 - High-performance plasma arc simulation
 - Realistic visualizations using WebGPU
@@ -13,8 +16,14 @@ By utilizing WebGPU, we take advantage of its advanced graphics and compute capa
 - User-friendly interface
 - Fast iteration with modular WebGPU components
 
-## WebGPU Integration
-WebGPU, a modern graphics API, is employed for its powerful capabilities, enabling us to render complex simulations at high frame rates. By tapping into the GPU's parallel processing power, we handle heavy computational loads more effectively, which is crucial for real-time simulations. The architecture of our codebase is inspired by the principles and standards of Unreal Engine 5, making it intuitive for developers familiar with industry-leading tools.
+## Why WebGPU Over UE5 or Unity?
+WebGPU is a modern graphics API that enables direct access to GPU capabilities within web browsers, providing near-native performance levels. This makes it an excellent choice for applications that require high-performance graphics but need to run within the browser. Key advantages include:
+
+- **Accessibility**: WebGPU allows applications to run directly in the browser without the need for platform-specific installations, making it more accessible to a wider audience.
+- **Performance**: WebGPU leverages the parallel processing power of modern GPUs, offering performance comparable to that of native applications built with UE5 or Unity.
+- **WebAssembly Integration**: By utilizing WebAssembly, we can achieve near-native speeds in the browser. Numerous demos have shown the potential of WebAssembly in delivering high-performance web applications.
+- **Modularity**: The architecture of the Plasma Arc Engine is highly modular, inspired by UE5 standards, making it easy for developers to extend and customize.
+- **Integration with Web Technologies**: By using WebGPU, the Plasma Arc Engine seamlessly integrates with other web technologies, allowing for more versatile and interactive applications.
 
 ## Installation
 
@@ -67,12 +76,12 @@ If you use this project in your research, please cite it as follows:
 
 ```bibtex
 @misc{plasma_arc,
-  author = {K. Rawson},
+  author = {K. Rawson and A. Chrzanowski},
   title = {Plasma Arc Project},
   year = {2024},
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/yourusername/plasma-arc-engine}},
-  email = {rawsonkara@gmail.com}
+  email = {rawsonkara@gmail.com, aimeechrzanowski@gmail.com}
 }
 ```
