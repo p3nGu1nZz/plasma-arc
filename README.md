@@ -1,18 +1,4 @@
----
-title: Plasma Arc
-emoji: ⚡
-colorFrom: gray
-colorTo: indigo
-sdk: static
-sdk_version: "latest"
-python_version: 3.10
-suggested_hardware: "a10g-large"
-suggested_storage: "medium"
-app_file: "index.html"
-short_description: High-performance plasma arc simulation using WebGPU.
----
-
-Check out the configuration reference at https://huggingface.co/docs/hub/spaces-config-reference
+Check out the live demo at [Hugging Face](https://huggingface.co/spaces/p3nGu1nZz/plasma-arc)
 
 # Plasma Arc Project
 
