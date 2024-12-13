@@ -1,4 +1,4 @@
-// utility.js
+// wgpu-utility.js
 
 export function generateGlyphTextureAtlas(canvas, ctx, config) {
     canvas.width = config.canvas.width;

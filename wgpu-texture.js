@@ -25,7 +25,6 @@ export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVe
         ],
     });
 
-    // Update state with glyph details
     state.glyphs.numGlyphs = glyphData.numGlyphs;
     state.glyphs.width = glyphData.width;
     state.glyphs.height = glyphData.height;

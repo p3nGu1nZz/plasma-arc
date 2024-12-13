@@ -1,20 +1,16 @@
-// wgpu-pipeline.js
-
-export async function createPipeline(device, presentationFormat, vertexSize, shaderCode) {
-    const module = device.createShaderModule({
-        label: 'textured quad shaders',
-        code: shaderCode,
-    });
-
-    const pipeline = device.createRenderPipeline({
+export async function InitializePipeline(state) {
+    state.webgpu.pipeline = state.webgpu.device.createRenderPipeline({
         label: 'textured quad pipeline',
         layout: 'auto',
         vertex: {
-            module,
+            module: state.webgpu.device.createShaderModule({
+                label: 'textured quad shaders',
+                code: state.webgpu.shaderCode,
+            }),
             entryPoint: 'vs',
             buffers: [
                 {
-                    arrayStride: vertexSize,
+                    arrayStride: state.webgpu.vertexSize,
                     attributes: [
                         { shaderLocation: 0, offset: 0, format: 'float32x2' },  // pos
                         { shaderLocation: 1, offset: 8, format: 'float32x2' },  // tex
@@ -24,10 +20,13 @@ export async function createPipeline(device, presentationFormat, vertexSize, sha
             ],
         },
         fragment: {
-            module,
+            module: state.webgpu.device.createShaderModule({
+                label: 'textured quad shaders',
+                code: state.webgpu.shaderCode,
+            }),
             entryPoint: 'fs',
             targets: [{
-                format: presentationFormat,
+                format: state.webgpu.presentationFormat,
                 blend: {
                     color: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' },
                     alpha: { srcFactor: 'one', dstFactor: 'one-minus-src-alpha', operation: 'add' }
@@ -35,6 +34,4 @@ export async function createPipeline(device, presentationFormat, vertexSize, sha
             }],
         },
     });
-
-    return pipeline;
 }

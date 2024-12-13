@@ -8,6 +8,9 @@ export const config = {
     vertsPerGlyph: 6,
     floatsPerVertex: 8,
     uniformBufferSize: 64,
+    floatsInUniformBuffer: 16,
+    matrixSize: 16,
+    vertexMultiplier: 4,
     canvas: {
         width: 512,
         height: 256
@@ -21,6 +24,12 @@ export const config = {
     render: {
         zNear: 0.001,
         zFar: 50
+    },
+    timing: {
+        fixedDeltaTime: 1 / 60,
+        maxFrameTime: 0.25,
+        targetFps: 60,
+        frameDuration: 1000 / 60
     },
     maxFPS: 60
 };

@@ -1,18 +1,20 @@
-// wgpu-devices.js
+// wgpu-device.js
 
-export async function initializeWebGPU(navigator, adapter, canvas) {
-    const context = canvas.getContext('webgpu');
-    const device = await adapter?.requestDevice();
-    if (!device) {
+export async function initializeDevice(state) {
+    state.webgpu.context = state.canvas.getContext('webgpu');
+    state.webgpu.device = await state.webgpu.adapter?.requestDevice();
+    
+    if (!state.webgpu.device) {
         alert('need a browser that supports WebGPU');
-        return { device: null, context: null, presentationFormat: null };
+        state.webgpu.device = null;
+        state.webgpu.context = null;
+        state.webgpu.presentationFormat = null;
+        return;
     }
 
-    const presentationFormat = navigator.gpu.getPreferredCanvasFormat();
-    context.configure({
-        device,
-        format: presentationFormat,
+    state.webgpu.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
+    state.webgpu.context.configure({
+        device: state.webgpu.device,
+        format: state.webgpu.presentationFormat,
     });
-
-    return { device, context, presentationFormat };
 }
