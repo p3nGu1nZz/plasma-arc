@@ -69,11 +69,11 @@ If you use this project in your research, please cite it as follows:
 ```bibtex
 @misc{plasma_arc,
   author = {K. Rawson},
-  title = {Plasma Arc Engine},
+  title = {Plasma Arc},
   year = {2025},
   publisher = {GitHub},
   journal = {GitHub repository},
-  howpublished = {\url{https://github.com/p3nGu1nZz/plasma-arc-engine}},
+  howpublished = {\url{https://github.com/p3nGu1nZz/plasma-arc}},
   email = {rawsonkara@gmail.com}
 }
 ```
