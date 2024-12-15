@@ -15,6 +15,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Basic documentation including README, LICENSE, CONTRIBUTING, ETHICS, and SECURITY files.
 - Initial FAQ for common questions and clarifications.
 
+## [1.0.0] - 2024-12-15
+
+### Added
+- Full version release with refined features and optimized performance.
+- Updated README.md with comprehensive project details.
+- Detailed contribution guidelines and code of conduct.
+- Enhanced WebGPU integration with additional shader programs and utilities.
+- Advanced configuration options for the plasma arc simulation.
+
+### Changed
+- Refined code structure and modularization for better maintainability.
+- Improved documentation for better clarity and usability.
+- Updated project dependencies to the latest versions.
+
+### Fixed
+- Bug fixes and performance improvements for smoother operation.
+- Resolved issues with file serving and MIME type handling.
+
 ## [0.0.1] - 2024-12-13
 
 ### Added

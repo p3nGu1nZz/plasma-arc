@@ -1,5 +1,18 @@
-// wgpu-text.js
+/**
+ * @file wgpu-text.js
+ * @description This module provides functions to generate vertex data for rendering text glyphs in the WebGPU-based simulation.
+ *              It handles the creation of vertices with associated texture coordinates and colors for each glyph.
+ * @version 1.0.0
+ * @license MIT
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * 
+ * Functions:
+ * - generateGlyphVerticesForText(text, colors, config, glyphCanvas): Generates vertex data for text glyphs.
+ */
 
+// Generates vertex data for text glyphs
 export function generateGlyphVerticesForText(text, colors, config, glyphCanvas) {
     const vertexData = new Float32Array(config.maxGlyphs * config.floatsPerVertex * config.vertsPerGlyph);
     const glyphUVWidth = config.glyphWidth / glyphCanvas.width;

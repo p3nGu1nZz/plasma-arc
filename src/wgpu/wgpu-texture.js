@@ -1,3 +1,19 @@
+/**
+ * @file wgpu-texture.js
+ * @description This module provides functions to generate vertex data and textures for the WebGPU-based simulation.
+ *              It handles the creation of vertex data for glyphs and initializes the texture and related resources.
+ * @version 1.0.0
+ * @license MIT
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * 
+ * Functions:
+ * - GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource): 
+ *   Generates vertex data and initializes textures for the simulation.
+ */
+
+// Generates vertex data and initializes textures for the simulation
 export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource) {
     const glyphData = generateGlyphVerticesForText('Hello\nworld!\nText in\nWebGPU!', COLORS, config, glyphCanvas);
     state.webgpu.device.queue.writeBuffer(state.webgpu.vertexBuffer, 0, glyphData.vertexData);

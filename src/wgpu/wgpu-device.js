@@ -1,5 +1,18 @@
-// wgpu-device.js
+/**
+ * @file wgpu-device.js
+ * @description This module provides functions to initialize the WebGPU device and context for the simulation.
+ *              It handles device requests and configures the WebGPU context for rendering.
+ * @version 1.0.0
+ * @license MIT
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * 
+ * Functions:
+ * - initializeDevice(state): Initializes the WebGPU device and context for the simulation.
+ */
 
+// Initializes the WebGPU device and context for the simulation
 export async function initializeDevice(state) {
     state.webgpu.context = state.canvas.getContext('webgpu');
     state.webgpu.device = await state.webgpu.adapter?.requestDevice();

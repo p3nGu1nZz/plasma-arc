@@ -1,5 +1,15 @@
-/* style.css */
+/**
+ * @file style.css
+ * @description Stylesheet for the Plasma Arc Project. This file contains the CSS rules for the layout and
+ *              visual styling of the application, including body, canvas, headers, paragraphs, and card elements.
+ * @version 1.0.0
+ * @license MIT
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ */
 
+/* General body styles */
 body {
     padding: 0;
     margin: 0;
@@ -7,17 +17,20 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
 }
 
+/* Canvas styles */
 canvas {
     display: block;
     width: 100vw;
     height: 100vh;
 }
 
+/* Header styles */
 h1 {
     font-size: 10em;
     margin-top: 0;
 }
 
+/* Paragraph styles */
 p {
     color: rgb(107, 114, 128);
     font-size: 1em;
@@ -25,6 +38,7 @@ p {
     margin-top: 5px;
 }
 
+/* Card styles */
 .card {
     max-width: 620px;
     margin: 0 auto;

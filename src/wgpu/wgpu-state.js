@@ -1,3 +1,18 @@
+/**
+ * @file wgpu-state.js
+ * @description This module provides a function to create and initialize the state object for the WebGPU-based simulation.
+ *              The state object contains configurations for WebGPU, matrices, glyphs, canvas, and timing settings.
+ * @version 1.0.0
+ * @license MIT
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * 
+ * Functions:
+ * - createState(config): Initializes and returns the state object with necessary configurations and settings.
+ */
+
+// Initializes and returns the state object with necessary configurations and settings
 export function createState(config) {
     return {
         webgpu: {

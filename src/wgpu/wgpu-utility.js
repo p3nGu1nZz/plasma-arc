@@ -1,5 +1,19 @@
-// wgpu-utility.js
+/**
+ * @file wgpu-utility.js
+ * @description This module provides utility functions for the WebGPU-based simulation, including generating
+ *              glyph texture atlases and creating textures from various sources.
+ * @version 1.0.0
+ * @license MIT
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * 
+ * Functions:
+ * - generateGlyphTextureAtlas(canvas, ctx, config): Generates a texture atlas for glyphs.
+ * - createTextureFromSource(device, source, options): Creates a texture from the given source.
+ */
 
+// Generates a texture atlas for glyphs
 export function generateGlyphTextureAtlas(canvas, ctx, config) {
     canvas.width = config.canvas.width;
     canvas.height = config.canvas.height;
@@ -15,6 +29,7 @@ export function generateGlyphTextureAtlas(canvas, ctx, config) {
     return canvas;
 }
 
+// Creates a texture from the given source
 export function createTextureFromSource(device, source, options = {}) {
     const texture = device.createTexture({
         format: 'rgba8unorm',

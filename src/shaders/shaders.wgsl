@@ -1,3 +1,21 @@
+/**
+ * @file shader.wgsl
+ * @description Vertex and fragment shaders for the Plasma Arc Project. These shaders handle the transformation of
+ *              vertices and the sampling of textures to produce the final rendered image.
+ * @version 1.0.0
+ * @license MIT
+ * @author K. Rawson
+ * @contact rawsonkara@gmail.com
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * 
+ * Vertex Shader:
+ * - Transforms vertex positions using a uniform matrix
+ * - Passes texture coordinates and colors to the fragment shader
+ * 
+ * Fragment Shader:
+ * - Samples textures using provided coordinates and combines with vertex colors
+ */
+
 struct VSInput {
     @location(0) position: vec4f,
     @location(1) texcoord: vec2f,

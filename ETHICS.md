@@ -27,12 +27,15 @@ At the Plasma Arc Project, we are committed to maintaining the highest ethical s
 - **Environmental Sustainability**: We are committed to environmentally sustainable practices and consider the environmental impact of our decisions.
 
 ## Code of Conduct
-All contributors and users are expected to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md). This ensures a positive and respectful environment for everyone involved.
+
+All contributors and users are expected to adhere to our [**Code of Conduct**](CODE_OF_CONDUCT.md). This ensures a positive and respectful environment for everyone involved.
 
 ## Reporting Issues
-If you encounter any ethical issues or have concerns about the conduct within the project, please report them to our project maintainers via [GitHub Issues](https://github.com/yourusername/plasma-arc-project/issues) or through our [Discord Community](https://discord.com/invite/huggingface).
+
+If you encounter any ethical issues or have concerns about the conduct within the project, please report them to our project maintainers via [**GitHub Issues**](https://github.com/p3nGu1nZz/plasma-arc/issues) or through our [**Discord Community**](https://discord.gg/Cm8MWryJMC).
 
 ## Conclusion
+
 Adhering to these ethical principles is crucial for the success and integrity of the Plasma Arc Project. We believe that by working together with respect, transparency, and responsibility, we can achieve our goals and create a positive impact.
 
-Thank you for being part of our community and for your commitment to these ethical standards.
+Thank you for being part of our community and for your commitment to these ethical standards. 🙏
