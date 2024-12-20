@@ -17,13 +17,12 @@ const SPACE_DIR = path.join(BUILD_DIR, 'space');
 const OUT_DIR = path.join(BUILD_DIR, 'out');
 const DIRS = [OUT_DIR, SPACE_DIR];
 
-let dirCount = 0;
-let fileCount = 0;
+const counters = { dirCount: 0, fileCount: 0 };
 
 const pipeline = new Pipeline();
 
-pipeline.add(new CleanDirs(DIRS));
+pipeline.add(new CleanDirs(DIRS, counters));
 pipeline.add(new DeleteFiles(BUILD_DIR));
-pipeline.add(new CleanSummary(dirCount, fileCount));
+pipeline.add(new CleanSummary(counters.dirCount, counters.fileCount));
 
 pipeline.execute();

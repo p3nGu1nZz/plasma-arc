@@ -9,7 +9,7 @@ import PrettyError from 'pretty-error';
 const pe = new PrettyError();
 
 class CleanDirs extends Pipe {
-    constructor(dirs) {
+    constructor(dirs, counters) {
         super('cleanDirs', () => {
             dirs.forEach((dir) => {
                 try {
@@ -21,13 +21,17 @@ class CleanDirs extends Pipe {
                                     const subPath = path.join(curPath, subfile);
                                     if (Files.isDir(subPath)) {
                                         Files.remove(subPath);
+                                        counters.dirCount++;
                                     } else {
                                         Files.unlink(subPath);
+                                        counters.fileCount++;
                                     }
                                 });
                                 Files.remove(curPath);
+                                counters.dirCount++;
                             } else {
                                 Files.unlink(curPath);
+                                counters.fileCount++;
                             }
                         });
                     }
