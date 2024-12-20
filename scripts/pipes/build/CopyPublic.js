@@ -10,21 +10,38 @@ import { Files } from '../../utility/Files.js';
 const pe = new PrettyError();
 
 class CopyPublic extends Pipe {
-    constructor(sourceDirs, spaceDir, publicFileTypes) {
+    constructor(publicDirs, spaceDir, publicFileTypes) {
         super('copyPublic', () => {
             try {
-                sourceDirs.filter(src => src.includes('public')).forEach((publicDir) => {
-                    const publicFiles = fs.readdirSync(publicDir);
-                    publicFiles.forEach((file) => {
-                        const srcPath = path.join(publicDir, file);
-                        const destPath = path.join(spaceDir, file);
+                console.log(chalk.blue(`Public directories: ${publicDirs.join(', ')}`));
 
-                        const isValidFile = publicFileTypes.some(type => file.endsWith(type.trim().substring(1)));
-                        if (fs.statSync(srcPath).isFile() && isValidFile) {
-                            Files.copy(srcPath, destPath);
+                publicDirs.forEach((publicDir) => {
+                    console.log(chalk.blue(`Processing public directory: ${publicDir}`));
+                    const copyRecursiveSync = (src, dest) => {
+                        const exists = fs.existsSync(src);
+                        const stats = exists && fs.statSync(src);
+                        const isDirectory = exists && stats.isDirectory();
+                        if (isDirectory) {
+                            if (!fs.existsSync(dest)) {
+                                fs.mkdirSync(dest);
+                                console.log(chalk.green(`Created directory: ${dest}`));
+                            }
+                            fs.readdirSync(src).forEach((childItemName) => {
+                                copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
+                            });
+                        } else {
+                            const isValidFile = publicFileTypes.some(type => src.endsWith(type.trim().substring(1)));
+                            if (isValidFile) {
+                                fs.copyFileSync(src, dest);
+                                console.log(chalk.green(`Copied file: ${Files.shorten(src)} to ${Files.shorten(dest)}`));
+                            } else {
+                                console.log(chalk.yellow(`Skipped file: ${Files.shorten(src)}`));
+                            }
                         }
-                    });
-                    console.log(chalk.cyan(`Copy: ${Files.shorten(publicDir)}`));
+                    };
+
+                    copyRecursiveSync(publicDir, spaceDir);
+                    console.log(chalk.cyan(`Finished copying: ${Files.shorten(publicDir)}`));
                 });
             } catch (err) {
                 console.error(chalk.red(`Error copying public: ${err}`));

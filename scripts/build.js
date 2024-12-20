@@ -23,6 +23,7 @@ const SOURCE_DIRS = process.env.SOURCE_DIRS.split(',').map(dir => path.join(__di
 const BUILD_DIR = path.join(__dirname, `../${process.env.BUILD_DIR}`);
 const OUT_DIR = path.join(BUILD_DIR, process.env.OUT_DIR);
 const SPACE_DIR = path.join(BUILD_DIR, process.env.SPACE_DIR);
+const PUBLIC_DIR = path.join(__dirname, `../${process.env.PUBLIC_DIR}`);
 const EXCLUDE = process.env.EXCLUDE_PATTERNS.split(',');
 const INCLUDE = process.env.INCLUDE_PATTERNS.split(',');
 const MODULE = process.env.MODULE_NAME;
@@ -38,7 +39,7 @@ pipeline.add(new CopySrc(SOURCE_DIRS, OUT_DIR, SPACE_DIR, EXCLUDE));
 pipeline.add(new LogIncludes(includedFileCount));
 pipeline.add(new CreateSpace(SPACE_DIR));
 pipeline.add(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
-pipeline.add(new CopyPublic(SOURCE_DIRS, SPACE_DIR, PUBLIC_FILE_TYPES));
+pipeline.add(new CopyPublic([PUBLIC_DIR], SPACE_DIR, PUBLIC_FILE_TYPES));
 pipeline.add(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
 pipeline.add(new UpdateIndex(SPACE_DIR, MODULE));
 pipeline.add(new BuildSummary(dirCount, includedFileCount));
