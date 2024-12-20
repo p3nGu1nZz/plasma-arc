@@ -60,11 +60,15 @@ class Files {
         }
     }
 
-    static read(dirPath) {
+    static read(filePath) {
         try {
-            return fs.readdirSync(dirPath);
+            if (this.isDir(filePath)) {
+                return fs.readdirSync(filePath);
+            } else {
+                return fs.readFileSync(filePath, 'utf-8');
+            }
         } catch (err) {
-            console.error(chalk.red(`Error reading directory: ${err.message}`));
+            console.error(chalk.red(`Error reading file or directory: ${err.message}`));
             console.error(pe.render(err));
             throw err;
         }

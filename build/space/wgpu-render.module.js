@@ -14,7 +14,8 @@ import { generateGlyphTextureAtlas, createTextureFromSource } from './wgpu-utili
 import { InitializeShaders } from './wgpu-shader.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
-
+
+
 (async () => {
     const state = createState(config);
 
@@ -101,7 +102,8 @@ import { generateGlyphVerticesForText } from './wgpu-text.js';
 })();
 
 
-
+
+
 export function generateGlyphTextureAtlas(canvas, ctx, config) {
     canvas.width = config.canvas.width;
     canvas.height = config.canvas.height;
@@ -116,7 +118,8 @@ export function generateGlyphTextureAtlas(canvas, ctx, config) {
     }
     return canvas;
 }
-
+
+
 export function createTextureFromSource(device, source, options = {}) {
     const texture = device.createTexture({
         format: 'rgba8unorm',
@@ -134,7 +137,8 @@ export function createTextureFromSource(device, source, options = {}) {
 }
 
 
-
+
+
 export function initializeTiming(state) {
     state.timing.fixedDeltaTime = 1 / 60;
     state.timing.maxFrameTime = 0.25;
@@ -149,7 +153,8 @@ export function initializeTiming(state) {
 }
 
 
-
+
+
 export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource) {
     const glyphData = generateGlyphVerticesForText('Hello\nworld!\nText in\nWebGPU!', COLORS, config, glyphCanvas);
     state.webgpu.device.queue.writeBuffer(state.webgpu.vertexBuffer, 0, glyphData.vertexData);
@@ -183,7 +188,8 @@ export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVe
 }
 
 
-
+
+
 export function generateGlyphVerticesForText(text, colors, config, glyphCanvas) {
     const vertexData = new Float32Array(config.maxGlyphs * config.floatsPerVertex * config.vertsPerGlyph);
     const glyphUVWidth = config.glyphWidth / glyphCanvas.width;
@@ -213,7 +219,7 @@ export function generateGlyphVerticesForText(text, colors, config, glyphCanvas) 
             addVertex(x1, y1, u1, v1, colors[colorNdx]);
         } else {
             colorNdx = (colorNdx + 1) % colors.length;
-            if (c === 10) {
+            if (c === 10) { 
                 x0 = 0; x1 = 1; y0--; y1 = y0 + 1;
                 continue;
             }
@@ -224,7 +230,8 @@ export function generateGlyphVerticesForText(text, colors, config, glyphCanvas) 
 }
 
 
-
+
+
 export function createState(config) {
     return {
         webgpu: {
@@ -269,18 +276,21 @@ export function createState(config) {
 }
 
 
-
+
+
 export async function fetchShaderCode(url) {
     const response = await fetch(url);
     return await response.text();
 }
-
+
+
 export async function InitializeShaders(state) {
     state.webgpu.shaderCode = await fetchShaderCode('shaders.wgsl');
 }
 
 
-
+
+
 export async function InitializePipeline(state) {
     state.webgpu.pipeline = state.webgpu.device.createRenderPipeline({
         label: 'textured quad pipeline',
@@ -295,9 +305,9 @@ export async function InitializePipeline(state) {
                 {
                     arrayStride: state.webgpu.vertexSize,
                     attributes: [
-                        { shaderLocation: 0, offset: 0, format: 'float32x2' }, 
-                        { shaderLocation: 1, offset: 8, format: 'float32x2' }, 
-                        { shaderLocation: 2, offset: 16, format: 'float32x4' } 
+                        { shaderLocation: 0, offset: 0, format: 'float32x2' },  
+                        { shaderLocation: 1, offset: 8, format: 'float32x2' },  
+                        { shaderLocation: 2, offset: 16, format: 'float32x4' }  
                     ],
                 },
             ],
@@ -320,10 +330,12 @@ export async function InitializePipeline(state) {
 }
 
 
-
 
 
-
+
+
+
+
 export async function initializeDevice(state) {
     state.webgpu.context = state.canvas.getContext('webgpu');
     state.webgpu.device = await state.webgpu.adapter?.requestDevice();
@@ -402,7 +414,8 @@ export const config = {
 };
 
 
-
+
+
 export function CreateBuffers(state, config) {
     const vertexBufferSize = config.maxGlyphs * config.vertsPerGlyph * config.floatsPerVertex * 4;
     state.webgpu.vertexBuffer = state.webgpu.device.createBuffer({
@@ -420,7 +433,8 @@ export function CreateBuffers(state, config) {
     const indices = GenerateIndices(config.maxGlyphs);
     state.webgpu.device.queue.writeBuffer(state.webgpu.indexBuffer, 0, new Uint32Array(indices));
 }
-
+
+
 export function GenerateIndices(maxGlyphs) {
     return Array.from({ length: maxGlyphs * 6 }, (_, i) => {
         const ndx = Math.floor(i / 6) * 4;

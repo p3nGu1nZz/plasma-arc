@@ -9,7 +9,10 @@ import PrettyError from 'pretty-error';
 import { sync as globSync } from 'glob';
 import { Files } from './Files.js';
 import Processor from './Processor.js';
-import { removeSingleLineComments, removeMultiLineComments } from '../processors/removeComments.js';
+import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js';
+import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
+import { RemoveDuplicateFunctions } from '../processors/removeDuplicateFunctions.js';
+import { RemoveLocalImports } from '../processors/removeLocalImports.js';
 
 const pe = new PrettyError();
 
@@ -25,20 +28,24 @@ class Compiler {
         let outputLines = [];
         let count = 0;
 
+        const processor = new Processor();
+
         // Configure Processor
         if (options.removeComments) {
-            Processor.addProcessor(removeSingleLineComments.name, removeSingleLineComments.regex, removeSingleLineComments.replacement);
-            Processor.addProcessor(removeMultiLineComments.name, removeMultiLineComments.regex, removeMultiLineComments.replacement);
+            processor.addProcessor(new RemoveSingleLineComments());
+            processor.addProcessor(new RemoveMultiLineComments());
         }
+        processor.addProcessor(new RemoveDuplicateFunctions());
+        processor.addProcessor(new RemoveLocalImports());
 
         try {
             const files = globSync(`${src}/**/*`, { ignore: EXCLUDE });
             files.forEach((filePath) => {
                 if (Files.include(filePath, INCLUDE) && !Files.exclude(filePath, EXCLUDE)) {
-                    let data = fs.readFileSync(filePath, 'utf-8');
+                    let data = Files.read(filePath);
 
                     // Process text using Processor
-                    data = Processor.process(data);
+                    data = processor.process(data);
 
                     outputLines.push(data);
                     count++;

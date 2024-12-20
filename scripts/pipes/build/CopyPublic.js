@@ -18,21 +18,17 @@ class CopyPublic extends Pipe {
                 publicDirs.forEach((publicDir) => {
                     console.log(chalk.blue(`Processing public directory: ${publicDir}`));
                     const copyRecursiveSync = (src, dest) => {
-                        const exists = fs.existsSync(src);
-                        const stats = exists && fs.statSync(src);
-                        const isDirectory = exists && stats.isDirectory();
-                        if (isDirectory) {
-                            if (!fs.existsSync(dest)) {
-                                fs.mkdirSync(dest);
-                                console.log(chalk.green(`Created directory: ${dest}`));
+                        if (Files.isDir(src)) {
+                            if (!Files.exists(dest)) {
+                                Files.create(dest);
                             }
-                            fs.readdirSync(src).forEach((childItemName) => {
+                            Files.read(src).forEach((childItemName) => {
                                 copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
                             });
                         } else {
                             const isValidFile = publicFileTypes.some(type => src.endsWith(type.trim().substring(1)));
                             if (isValidFile) {
-                                fs.copyFileSync(src, dest);
+                                Files.write(dest, Files.read(src));
                                 console.log(chalk.green(`Copied file: ${Files.shorten(src)} to ${Files.shorten(dest)}`));
                             } else {
                                 console.log(chalk.yellow(`Skipped file: ${Files.shorten(src)}`));

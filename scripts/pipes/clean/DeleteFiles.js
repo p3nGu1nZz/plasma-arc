@@ -1,5 +1,3 @@
-// scripts/pipes/clean/DeleteFiles.js
-
 import { Pipe } from '../../utility/Pipe.js';
 import { Files } from '../../utility/Files.js';
 import chalk from 'chalk';

@@ -6,7 +6,6 @@ import chalk from 'chalk';
 import { globSync } from 'glob';
 import PrettyError from 'pretty-error';
 import { Files } from '../../utility/Files.js';
-import Processor from '../../utility/Processor.js';
 
 const pe = new PrettyError();
 
@@ -42,8 +41,7 @@ class CopySrc {
                     const spacePath = path.join(this.spaceDir, relativePath);
 
                     if (Files.isFile(filePath)) {
-                        let content = fs.readFileSync(filePath, 'utf-8');
-                        content = Processor.process(content);
+                        const content = Files.read(filePath);
                         Files.write(outPath, content);
                         if (filePath.endsWith('.css')) {
                             Files.write(spacePath, content);
