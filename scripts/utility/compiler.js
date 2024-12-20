@@ -1,4 +1,4 @@
-// scripts/utility/compiler.js
+// scripts/utility/Compiler.js
 
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -8,6 +8,8 @@ import fs from 'fs';
 import PrettyError from 'pretty-error';
 import { sync as globSync } from 'glob';
 import { Files } from './Files.js';
+import Processor from './Processor.js';
+import { removeSingleLineComments, removeMultiLineComments } from '../processors/removeComments.js';
 
 const pe = new PrettyError();
 
@@ -23,15 +25,20 @@ class Compiler {
         let outputLines = [];
         let count = 0;
 
+        // Configure Processor
+        if (options.removeComments) {
+            Processor.addProcessor(removeSingleLineComments.name, removeSingleLineComments.regex, removeSingleLineComments.replacement);
+            Processor.addProcessor(removeMultiLineComments.name, removeMultiLineComments.regex, removeMultiLineComments.replacement);
+        }
+
         try {
             const files = globSync(`${src}/**/*`, { ignore: EXCLUDE });
             files.forEach((filePath) => {
                 if (Files.include(filePath, INCLUDE) && !Files.exclude(filePath, EXCLUDE)) {
                     let data = fs.readFileSync(filePath, 'utf-8');
 
-                    if (options.removeComments) {
-                        data = data.replace(/\/\/.*$/gm, '');
-                    }
+                    // Process text using Processor
+                    data = Processor.process(data);
 
                     outputLines.push(data);
                     count++;

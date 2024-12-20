@@ -1,10 +1,10 @@
 // scripts/pipes/build/CompileJS.js
 
-import { Pipe } from '../../utility/Pipe.js';
-import Compiler from '../../utility/Compiler.js';
+import path from 'path';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
-import path from 'path';
+import { Pipe } from '../../utility/Pipe.js';
+import Compiler from '../../utility/Compiler.js';
 
 const pe = new PrettyError();
 

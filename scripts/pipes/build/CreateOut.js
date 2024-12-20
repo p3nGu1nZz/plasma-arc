@@ -9,7 +9,7 @@ const pe = new PrettyError();
 
 class CreateOut extends Pipe {
     constructor(outDir) {
-        super('createOut', () => {
+        super('createOut', async () => {
             try {
                 Files.create(outDir);
                 console.log(chalk.cyan(`Create: ${Files.shorten(outDir)}`));

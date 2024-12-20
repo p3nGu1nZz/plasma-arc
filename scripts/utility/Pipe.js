@@ -1,4 +1,4 @@
-// scripts/pipes/Pipe.js
+// pipes/utility/Pipe.js
 
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
@@ -11,10 +11,10 @@ class Pipe {
         this.action = action;
     }
 
-    run() {
-        console.log(chalk.green(`Run: ${this.name}`));
+    async execute() {
+        console.log(chalk.green(`Execute: ${this.name}`));
         try {
-            this.action();
+            await this.action();
         } catch (err) {
             console.error(chalk.red(`Error in ${this.name}: ${err.message}`));
             console.error(pe.render(err));

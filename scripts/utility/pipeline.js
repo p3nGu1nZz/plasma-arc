@@ -1,13 +1,11 @@
-// scripts/utility/pipeline.js
+// scripts/utility/Pipeline.js
 
 import chalk from 'chalk';
 import dotenv from 'dotenv';
 import PrettyError from 'pretty-error';
 
-// Initialize PrettyError
 const pe = new PrettyError();
 
-// Load environment variables from .env file
 dotenv.config();
 
 class Pipeline {
@@ -19,10 +17,12 @@ class Pipeline {
         this.pipes.push(pipe);
     }
 
-    run() {
+    async execute() {
         console.log(chalk.green(`Pipeline Start`));
         try {
-            this.pipes.forEach((pipe) => pipe.run());
+            for (const pipe of this.pipes) {
+                await pipe.execute();
+            }
             console.log(chalk.green(`Pipeline Complete!`));
             console.log();
         } catch (err) {

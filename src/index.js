@@ -1,18 +1,11 @@
 /**
  * @file index.js
- * @description Main entry point for the Plasma Arc Project. This script initializes and manages the WebGPU 
- *              simulation, including device setup, shaders, pipeline, resources, and game loop.
+ * @description Main entry point for the Plasma Arc Project.
  * @version 1.0.0
  * @license MIT
  * @author K. Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * 
- * Imports:
- * - mat4: Matrix operations from wgpu-matrix.module.js
- * - Constants and configurations from wgpu-constants.js and wgpu-config.js
- * - State management, device initialization, buffers, pipeline, and utility functions
- *   from their respective modules in the project.
  */
 
 import { mat4 } from 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js';

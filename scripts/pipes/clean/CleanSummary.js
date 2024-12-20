@@ -1,4 +1,4 @@
-// pipes/clean/CleanSummary.js
+// scripts/pipes/clean/CleanSummary.js
 
 import chalk from 'chalk';
 import { Pipe } from '../../utility/Pipe.js';

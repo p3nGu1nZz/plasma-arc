@@ -26,4 +26,4 @@ pipeline.add(new CleanDirs(DIRS));
 pipeline.add(new DeleteFiles(BUILD_DIR));
 pipeline.add(new CleanSummary(dirCount, fileCount));
 
-pipeline.run();
+pipeline.execute();
