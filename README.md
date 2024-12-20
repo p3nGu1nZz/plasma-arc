@@ -145,7 +145,7 @@ Running the simulation is simple. Start the server, open the HTML file in your b
 1. **Start the Server**:
 
    ```bash
-   npm start
+   npm run start
    ```
 
 2. **Open `index.html`** in your WebGPU-compatible browser.
