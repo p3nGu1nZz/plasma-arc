@@ -15,6 +15,98 @@ const INCLUDE_PATTERNS = process.env.INCLUDE_PATTERNS.split(',');
 const EXCLUDE_PATTERNS = process.env.EXCLUDE_PATTERNS.split(',');
 
 class Files {
+    static create(dirPath) {
+        try {
+            if (!fs.existsSync(dirPath)) {
+                fs.mkdirSync(dirPath, { recursive: true });
+                console.log(chalk.green(`Created directory: ${dirPath}`));
+            } else {
+                console.log(chalk.yellow(`Directory already exists: ${dirPath}`));
+            }
+        } catch (err) {
+            console.error(chalk.red(`Error creating directory: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static exists(filePath) {
+        try {
+            return fs.existsSync(filePath);
+        } catch (err) {
+            console.error(chalk.red(`Error checking existence of file: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static isDir(filePath) {
+        try {
+            return fs.statSync(filePath).isDirectory();
+        } catch (err) {
+            console.error(chalk.red(`Error checking if path is a directory: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static isFile(filePath) {
+        try {
+            return fs.statSync(filePath).isFile();
+        } catch (err) {
+            console.error(chalk.red(`Error checking if path is a file: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static read(dirPath) {
+        try {
+            return fs.readdirSync(dirPath);
+        } catch (err) {
+            console.error(chalk.red(`Error reading directory: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static write(filePath, content) {
+        try {
+            const dir = path.dirname(filePath);
+            if (!fs.existsSync(dir)) {
+                fs.mkdirSync(dir, { recursive: true });
+            }
+            fs.writeFileSync(filePath, content, 'utf-8');
+            console.log(chalk.green(`Written to: ${filePath}`));
+        } catch (err) {
+            console.error(chalk.red(`Error writing to file: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static remove(filePath) {
+        try {
+            fs.rmSync(filePath, { recursive: true, force: true });
+            console.log(chalk.green(`Removed: ${filePath}`));
+        } catch (err) {
+            console.error(chalk.red(`Error removing file or directory: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
+    static unlink(filePath) {
+        try {
+            fs.unlinkSync(filePath);
+            console.log(chalk.green(`Unlinked: ${filePath}`));
+        } catch (err) {
+            console.error(chalk.red(`Error unlinking file: ${err.message}`));
+            console.error(pe.render(err));
+            throw err;
+        }
+    }
+
     static exclude(filePath, excludePatterns = EXCLUDE_PATTERNS) {
         try {
             const patternMatched = excludePatterns.some(pattern => match([filePath], pattern).length > 0);
@@ -58,73 +150,6 @@ class Files {
             return filePath.length > max ? `...${filePath.slice(-max + 3)}` : filePath;
         } catch (err) {
             console.error(chalk.red(`Error shortening file path: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static create(dirPath) {
-        try {
-            if (!fs.existsSync(dirPath)) {
-                fs.mkdirSync(dirPath, { recursive: true });
-                console.log(chalk.green(`Created directory: ${dirPath}`));
-            } else {
-                console.log(chalk.yellow(`Directory already exists: ${dirPath}`));
-            }
-        } catch (err) {
-            console.error(chalk.red(`Error creating directory: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static exists(filePath) {
-        try {
-            return fs.existsSync(filePath);
-        } catch (err) {
-            console.error(chalk.red(`Error checking existence of file: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static read(dirPath) {
-        try {
-            return fs.readdirSync(dirPath);
-        } catch (err) {
-            console.error(chalk.red(`Error reading directory: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static isDir(filePath) {
-        try {
-            return fs.statSync(filePath).isDirectory();
-        } catch (err) {
-            console.error(chalk.red(`Error checking if path is a directory: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static remove(filePath) {
-        try {
-            fs.rmSync(filePath, { recursive: true, force: true });
-            console.log(chalk.green(`Removed: ${filePath}`));
-        } catch (err) {
-            console.error(chalk.red(`Error removing file or directory: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-
-    static unlink(filePath) {
-        try {
-            fs.unlinkSync(filePath);
-            console.log(chalk.green(`Unlinked: ${filePath}`));
-        } catch (err) {
-            console.error(chalk.red(`Error unlinking file: ${err.message}`));
             console.error(pe.render(err));
             throw err;
         }
