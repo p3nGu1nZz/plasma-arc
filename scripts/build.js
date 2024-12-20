@@ -38,6 +38,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Split and construct the SOURCE_DIRS paths properly
 const SOURCE_DIRS = process.env.SOURCE_DIRS.split(',').map(dir => path.join(__dirname, `../${dir}`));
 const BUILD_DIR = path.join(__dirname, `../${process.env.BUILD_DIR}`);
 const OUT_DIR = path.join(BUILD_DIR, 'out');
@@ -45,6 +47,7 @@ const SPACE_DIR = path.join(BUILD_DIR, 'space');
 const EXCLUDE = process.env.EXCLUDE_PATTERNS.split(',');
 const INCLUDE = process.env.INCLUDE_PATTERNS.split(',');
 const MODULE = process.env.MODULE_NAME;
+const ROOT_FILE = process.env.ROOT_FILE;
 const PUBLIC_FILE_TYPES = process.env.PUBLIC_FILE_TYPES.split(',');
 
 let fileCount = 0;
@@ -65,34 +68,33 @@ pipeline.add(new Pipe('createOut', () => {
     }
 }));
 
-pipeline.add(new Pipe('scanSrc', () => {
+pipeline.add(new Pipe('copySrc', () => {
     try {
-        SOURCE_DIRS.forEach((src) => {
-            console.log(`Scanning source directory: ${src}`);
-            if (!fs.existsSync(src)) {
-                console.error(chalk.red(`Source directory does not exist: ${src}`));
-                throw new Error(`Source directory does not exist: ${src}`);
+        SOURCE_DIRS.filter(src => src.includes('src')).forEach((srcDir) => {
+            const pattern = path.join(srcDir, '**/*');
+            const files = globSync(pattern, { ignore: EXCLUDE });
+
+            if (!files.length) {
+                console.warn(chalk.yellow(`No files found in ${srcDir}`));
+            } else {
+                console.log(chalk.green(`Copying files from ${srcDir}`));
             }
 
-            globSync(src, { ignore: EXCLUDE }).forEach(filePath => {
-                const numFiles = Files.count(filePath, INCLUDE, EXCLUDE);
-                console.log(chalk.green(`Scanned ${numFiles} files in ${Files.shorten(filePath)}`));
-                fileCount += numFiles;
+            files.forEach((filePath) => {
+                const relativePath = path.relative(srcDir, filePath);
+                const destPath = path.join(OUT_DIR, relativePath);
 
-                const includedFiles = Files.read(filePath).filter(file => {
-                    const fullPath = path.join(filePath, file);
-                    return Files.include(fullPath, INCLUDE) && !Files.exclude(fullPath, EXCLUDE);
-                });
-                includedFileCount += includedFiles.length;
+                if (fs.statSync(filePath).isFile()) {
+                    Files.copy(filePath, destPath);
+                }
             });
         });
     } catch (err) {
-        console.error(chalk.red(`Error scanning src: ${err}`));
+        console.error(chalk.red(`Error copying src: ${err}`));
         console.error(pe.render(err));
         throw err;
     }
 }));
-
 
 pipeline.add(new Pipe('logIncludedFiles', () => {
     console.log(chalk.blue(`Total included files: ${includedFileCount}`));
@@ -112,7 +114,9 @@ pipeline.add(new Pipe('createSpace', () => {
 
 pipeline.add(new Pipe('compile', () => {
     try {
-        Compiler.compile();
+        console.log(`Compiling files from directory: ${OUT_DIR}`);
+        const options = { include: INCLUDE, exclude: EXCLUDE, sourceMaps: true };
+        Compiler.compile(OUT_DIR, path.join(SPACE_DIR, MODULE), options);
     } catch (err) {
         console.error(chalk.red(`Error during compile: ${err}`));
         console.error(pe.render(err));

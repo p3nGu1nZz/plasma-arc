@@ -3,7 +3,7 @@
  * @description Utility class for managing a sequence of tasks (pipes) in a pipeline.
  * @version 1.0.0
  * @license MIT
- * author: K. Rawson
+ * @author: K. Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
  * 

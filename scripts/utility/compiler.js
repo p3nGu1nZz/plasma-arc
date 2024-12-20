@@ -6,14 +6,14 @@
  * @author: K. Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * 
+ *
  * Imports:
  * - path: Node.js path module for handling file paths.
  * - dotenv: For environment variable management.
  * - chalk: For color-coded logging.
  * - fs: Node.js file system module for file operations.
  * - pretty-error: For improved error stack traces.
- * - { Files } from './files.js': For file and directory operations.
+ * - glob: For pattern matching files.
  */
 
 import path from 'path';
@@ -22,6 +22,7 @@ import dotenv from 'dotenv';
 import chalk from 'chalk';
 import fs from 'fs';
 import PrettyError from 'pretty-error';
+import { sync as globSync } from 'glob';
 import { Files } from './files.js';
 
 // Initialize PrettyError
@@ -32,51 +33,23 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const SOURCE_DIRS = process.env.SOURCE_DIRS.split(',').map(dir => path.join(__dirname, `../${dir}`));
-const BUILD_DIR = path.join(__dirname, `../${process.env.BUILD_DIR}`);
-const SPACE_DIR = path.join(BUILD_DIR, 'space');
-const MODULE = process.env.MODULE_NAME;
 const INCLUDE = process.env.INCLUDE_PATTERNS.split(',');
 const EXCLUDE = process.env.EXCLUDE_PATTERNS.split(',');
 
 class Compiler {
-    static compile() {
-        const srcJs = SOURCE_DIRS.filter(dir => dir.includes('src') && !dir.includes('public'));
-        const dest = path.join(SPACE_DIR, MODULE);
-
-        let inputLines = [];
+    static async compile(src, dest, options = {}) {
         let outputLines = [];
         let count = 0;
 
         try {
-            srcJs.forEach((dir) => {
-                const files = fs.readdirSync(dir);
-                files.forEach((file) => {
-                    const filePath = path.join(dir, file);
-                    const stats = fs.statSync(filePath);
-
-                    if (stats.isDirectory()) {
-                        const innerFiles = fs.readdirSync(filePath);
-                        innerFiles.forEach(innerFile => {
-                            const innerFilePath = path.join(filePath, innerFile);
-                            const data = fs.readFileSync(innerFilePath, 'utf-8');
-                            inputLines.push({ filePath: innerFilePath, data });
-                            outputLines.push({ filePath: innerFilePath, data });
-                        });
-                    } else {
-                        if (Files.exclude(filePath, EXCLUDE) || !Files.include(filePath, INCLUDE)) {
-                            return;
-                        }
-
-                        if (file.endsWith('.js')) {
-                            const data = fs.readFileSync(filePath, 'utf-8');
-                            inputLines.push({ filePath, data });
-                            outputLines.push({ filePath, data });
-                            count++;
-                            console.log(chalk.magenta(`Add: ${Files.shorten(filePath)}`));
-                        }
-                    }
-                });
+            const files = globSync(`${src}/**/*`, { ignore: EXCLUDE });
+            files.forEach((filePath) => {
+                if (Files.include(filePath, INCLUDE) && !Files.exclude(filePath, EXCLUDE)) {
+                    const data = fs.readFileSync(filePath, 'utf-8');
+                    outputLines.push(data);
+                    count++;
+                    console.log(chalk.magenta(`Add: ${Files.shorten(filePath)}`));
+                }
             });
 
             if (count === 0) {
@@ -85,9 +58,16 @@ class Compiler {
                 process.exit(1);
             }
 
-            // Process outputLines here if needed
-            
-            const finalCode = outputLines.map(line => line.data).join('\n');
+            let finalCode = outputLines.join('\n');
+
+            // Generate source maps if the option is set
+            if (options.sourceMaps) {
+                const sourceMap = await Files.generateSourceMap(finalCode, src);
+                finalCode += `\n//# sourceMappingURL=${path.basename(dest)}.map`;
+                const sourceMapPath = `${dest}.map`;
+                fs.writeFileSync(sourceMapPath, sourceMap);
+                console.log(chalk.green(`Source map generated at: ${Files.shorten(sourceMapPath)}`));
+            }
 
             // Ensure destination directory exists
             const destDir = path.dirname(dest);
