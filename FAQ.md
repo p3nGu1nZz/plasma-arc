@@ -9,7 +9,7 @@ A: The Plasma Arc Project is an advanced simulation platform for plasma arcs, le
 A: You can get started by following the installation instructions in the [**README**](README.md). Ensure you have the necessary prerequisites and a WebGPU-compatible browser.
 
 **Q: Who can contribute to the project?**  
-A: Anyone is welcome to contribute! Check out our [**CONTRIBUTE.md**](CONTRIBUTE.md) file for more details on how to get involved.
+A: Anyone is welcome to contribute! Check out our [**CONTRIBUTING.md**](CONTRIBUTING.md) file for more details on how to get involved.
 
 **Q: What license is the Plasma Arc Project released under?**  
 A: The project is released under the MIT License, allowing you to use, modify, and distribute the software with minimal restrictions.
@@ -49,7 +49,7 @@ A: Follow our repository on GitHub and join our Discord community to stay inform
 A: Yes, please refer to our [**Code of Conduct**](CODE_OF_CONDUCT.md) for guidelines on how to interact respectfully and contribute positively to our community.
 
 **Q: How can I contribute to the project?**  
-A: You can contribute by submitting issues, pull requests, and participating in discussions on GitHub and Discord. Check out our [**CONTRIBUTE.md**](CONTRIBUTE.md) file for more details.
+A: You can contribute by submitting issues, pull requests, and participating in discussions on GitHub and Discord. Check out our [**CONTRIBUTING.md**](CONTRIBUTING.md) file for more details.
 
 **Q: Are there any planned features or roadmap for the project?**  
 A: Yes, we have a roadmap for planned features and improvements. You can find it in the [**GitHub repository**](https://github.com/p3nGu1nZz/plasma-arc/projects).
@@ -65,4 +65,4 @@ A: Yes, the project is released under the MIT License, which allows for commerci
 **Q: Who do I contact for more information?**  
 A: For more information, you can contact us through GitHub issues or join our Discord community for direct support and discussions.
 
-We hope this FAQ helps answer your questions! If you have more, feel free to reach out to us on [**GitHub Dicussions**](https://github.com/p3nGu1nZz/plasma-arc/discussions/new/choose) or [**Discord**](https://discord.gg/Cm8MWryJMC).
+We hope this FAQ helps answer your questions! If you have more, feel free to reach out to us on [**GitHub Discussions**](https://github.com/p3nGu1nZz/plasma-arc/discussions/new/choose) or [**Discord**](https://discord.gg/Cm8MWryJMC).

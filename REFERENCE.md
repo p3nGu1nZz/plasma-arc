@@ -20,6 +20,7 @@ For detailed information about WebGPU and its usage, refer to the following reso
 Our project aims to align with industry standards for coding and design. Here are some references that guide our design and architecture:
 
 - **Unreal Engine 5 Style Guide**: [UE5 Coding Standards](https://docs.unrealengine.com/4.27/en-US/ProductionPipelines/DevelopmentSetup/CodingStandard/)
+- **UE5 Style Guide**: [GitHub UE5 Style Guide](https://github.com/Allar/ue5-style-guide)
 - **React State Management**: [React Documentation](https://reactjs.org/docs/state-and-lifecycle.html)
 
 ## Additional References

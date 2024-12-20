@@ -1,6 +1,6 @@
 # Plasma Arc Project ⚡
 
-Check out the live demo at [Hugging Face](https://huggingface.co/spaces/p3nGu1nZz/plasma-arc)
+Check out the live demo at **[Hugging Face](https://huggingface.co/spaces/p3nGu1nZz/plasma-arc)**
 
 ## Overview
 
@@ -36,17 +36,21 @@ project-root/
 │   ├── utils/       # Utility functions
 │   ├── wgpu/        # WebGPU-specific modules
 │   ├── index.js     # Main entry point for client-side application
-│   ├── server.js    # Node.js server configuration
+├── scripts/         # Server and other scripts
+│   ├── build.js     # Build script
+│   ├── clean.js     # Clean script
+│   ├── publish.js   # Publish script
+│   └── server.js    # Node.js server configuration
 ├── tests/           # Test files for the application
 ├── .gitattributes   # Git attributes file
 ├── .gitignore       # Git ignore file
 ├── CHANGELOG.md     # Changelog for tracking changes
-├── CONTRIBUTE.md    # Guidelines for contributing
+├── CONTRIBUTING.md  # Guidelines for contributing
 ├── ETHICS.md        # Code of ethics and guidelines
 ├── FAQ.md           # Frequently asked questions
 ├── LICENSE          # License for the project
 ├── README.md        # Readme file
-├── REFERENCE.md     # Bibiography and Links
+├── REFERENCE.md     # Bibliography and Links
 └── SECURITY.md      # Security guidelines
 ```
 
@@ -58,7 +62,7 @@ To get started with the Plasma Arc Project, you'll need to set up your environme
 
 Before you begin, make sure you have the following software installed:
 
-- Node.js (v14.0.0 or higher)
+- Node.js (v18.0.0 or higher)
 - Python (v3.10 or higher)
 - A WebGPU-compatible browser (e.g., Chrome Canary, Firefox Nightly)
 
@@ -79,7 +83,62 @@ Install the necessary dependencies using npm:
 npm install
 ```
 
-## Running the Simulation
+### Set Up Python Virtual Environment
+
+1. **Create a virtual environment**:
+
+   ```bash
+   python -m venv env
+   ```
+
+2. **Activate the virtual environment**:
+
+   - On Windows:
+     ```bash
+     .\env\Scripts\activate
+     ```
+   - On macOS and Linux:
+     ```bash
+     source env/bin/activate
+     ```
+
+3. **Install Python dependencies**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+## Configuration
+
+Before running the project, you need to configure the environment variables. 
+
+1. **Copy the `.env.sample` file** to a new file named `.env`:
+
+   ```bash
+   cp .env.sample .env
+   ```
+
+2. **Edit the `.env` file** and fill in the required values. The Hugging Face properties like the token are only necessary if you plan to publish to your own Hugging Face space.
+
+## Building the Project
+
+To build the project, you need to run the build script. This script will copy the necessary files to the build directory and set up the environment.
+
+1. **Clean the Build Directory**:
+
+   ```bash
+   npm run clean
+   ```
+
+2. **Run the Build Script**:
+
+   ```bash
+   npm run build
+   ```
+
+This will prepare your project for running and publishing.
+
+## Running the Project
 
 Running the simulation is simple. Start the server, open the HTML file in your browser, and modify configurations as needed.
 
@@ -95,6 +154,24 @@ Running the simulation is simple. Start the server, open the HTML file in your b
 
 4. **Refresh the Browser** to see your changes instantly with fast iterative development.
 
+## Publishing the Project
+
+To publish your project to Hugging Face Spaces, follow these steps:
+
+1. **Ensure the Build Directory is Prepared**:
+
+   ```bash
+   npm run build
+   ```
+
+2. **Run the Publish Script**:
+
+   ```bash
+   npm run publish
+   ```
+
+This will upload your project to Hugging Face Spaces, making it available for others to use and explore.
+
 ## Testing
 
 Testing is an essential part of ensuring the stability and functionality of the Plasma Arc Project. We use Jest for testing our code.
@@ -109,18 +186,7 @@ npm test
 
 ## Contributing
 
-Contributions are welcome! If you'd like to contribute to the Plasma Arc Project, please follow our contribution guidelines. We appreciate all efforts to improve the project.
-
-### Contribution Guidelines
-
-Here are the steps to contribute:
-
-- Fork the repository.
-- Create a new branch (`git checkout -b feature-branch`).
-- Make your changes.
-- Commit your changes (`git commit -m 'Add some feature'`).
-- Push to the branch (`git push origin feature-branch`).
-- Open a pull request.
+Contributions are welcome! If you'd like to contribute to the Plasma Arc Project, please follow our **[contribution guidelines](CONTRIBUTING.md)**. We appreciate all efforts to improve the project.
 
 ## Acknowledgments
 
@@ -136,7 +202,7 @@ Our project strives to achieve parity with Unreal Engine 5 (UE5) by aligning our
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the **[MIT License](LICENSE.md)**.
 
 ## Citation
 

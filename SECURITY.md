@@ -8,7 +8,7 @@ We take the security of our project seriously. If you discover a security vulner
 
 ### How to Report
 
-1. **Email**: Send an email to our security team at rawsonkara@gmail.com with the subject line **Security Vulnerability Report**.
+1. **Email**: Send an email to our security team at [rawsonkara@gmail.com](mailto:rawsonkara@gmail.com) with the subject line **Security Vulnerability Report**.
 2. **Include Details**: Provide as much detail as possible about the vulnerability. Include the steps to reproduce the issue, any potential impact, and your contact information.
 3. **Confidentiality**: We will handle your report with the highest level of confidentiality and will not share the details outside of our security team until the issue is resolved.
 
@@ -25,5 +25,12 @@ This policy applies to any vulnerabilities identified in the project repository,
 - The core application code
 - Dependencies and libraries
 - Documentation and configurations
+
+## Security Best Practices
+
+In addition to reporting vulnerabilities, we encourage all contributors to follow security best practices:
+- Keep dependencies up to date.
+- Review code changes for potential security issues.
+- Use secure coding guidelines and tools.
 
 We thank you for your efforts to make the Plasma Arc Project secure for everyone.

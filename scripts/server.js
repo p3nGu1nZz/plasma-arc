@@ -1,3 +1,5 @@
+// scripts/server.js
+
 /**
  * @file server.js
  * @description Node.js server setup for serving static files and handling requests for the Plasma Arc Project.
@@ -5,7 +7,6 @@
  * @version 1.0.0
  * @license MIT
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @author K. Rawson
  * @contact rawsonkara@gmail.com
  * 
  * Middleware:
@@ -51,7 +52,6 @@ app.use(express.static(path.join(__dirname, '../src/components')));
 app.use(express.static(path.join(__dirname, '../src/shaders')));
 app.use(express.static(path.join(__dirname, '../src/utils')));
 app.use(express.static(path.join(__dirname, '../src/wgpu')));
-
 
 // If no file is found, respond with a 404 error
 app.use((req, res, next) => {

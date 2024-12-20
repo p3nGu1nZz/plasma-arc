@@ -6,45 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
-### Added
-- Initial setup of the project with basic structure and WebGPU integration.
-- High-performance plasma arc simulation prototype.
-- Realistic visualizations using WebGPU.
-- Modular and extendable codebase including `wgpu-device.js`, `wgpu-state.js`, `wgpu-utility.js`, `wgpu-pipeline.js`, `wgpu-shader.js`, `wgpu-texture.js`, `wgpu-buffer.js`, and `wgpu-timing.js`.
-- User-friendly interface with fast iterative development features.
-- Basic documentation including README, LICENSE, CONTRIBUTING, ETHICS, and SECURITY files.
-- Initial FAQ for common questions and clarifications.
+### [1.0.0] - 2024-12-18
+#### Added
+- Updated `build.js` script to use environment variables from `.env` file.
+- Updated `clean.js` script to use environment variables from `.env` file.
+- Updated `publish.js` script to use environment variables from `.env` file.
+- Added detailed instructions in `README.md` for setting up Python virtual environment and installing dependencies.
+- Created `requirements.txt` file for Python dependencies, including `huggingface_hub[cli]`.
+- Added sections in `README.md` for building, running, and publishing the project.
+- Updated `REFERENCES.md` with additional and reorganized content.
+- Updated `FAQ.md` with new and organized content.
+- Updated `ETHICS.md` and `CODE_OF_CONDUCT.md` for clarity and completeness.
 
 ## [1.0.0] - 2024-12-15
-
-### Added
+#### Added
 - Full version release with refined features and optimized performance.
 - Updated README.md with comprehensive project details.
 - Detailed contribution guidelines and code of conduct.
 - Enhanced WebGPU integration with additional shader programs and utilities.
 - Advanced configuration options for the plasma arc simulation.
 
-### Changed
+#### Changed
 - Refined code structure and modularization for better maintainability.
 - Improved documentation for better clarity and usability.
 - Updated project dependencies to the latest versions.
 
-### Fixed
+#### Fixed
 - Bug fixes and performance improvements for smoother operation.
 - Resolved issues with file serving and MIME type handling.
 
 ## [0.0.1] - 2024-12-13
-
-### Added
+#### Added
 - Initial prototype release.
 - Core simulation functionality with configurable parameters.
 - Integration with WebGPU for high-performance computation and rendering.
 - Basic modular components for state management and pipeline creation.
 
-### Changed
+#### Changed
 - N/A
 
-### Fixed
+#### Fixed
 - N/A
 
 ---
