@@ -1,7 +1,7 @@
 // scripts/pipes/build/CompileJS.js
 
 import { Pipe } from '../../utility/Pipe.js';
-import Compiler from '../../utility/compiler.js';
+import Compiler from '../../utility/Compiler.js';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
 import path from 'path';

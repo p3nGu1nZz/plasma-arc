@@ -1,7 +1,7 @@
 // scripts/pipes/build/CopySrc.js
 
 import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/files.js';
+import { Files } from '../../utility/Files.js';
 import path from 'path';
 import fs from 'fs';
 import { sync as globSync } from 'glob';

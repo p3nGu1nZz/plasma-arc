@@ -3,10 +3,10 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { Pipeline } from './utility/pipeline.js';
+import { Pipeline } from './utility/Pipeline.js';
 import { CleanDirs } from './pipes/clean/CleanDirs.js';
 import { DeleteFiles } from './pipes/clean/DeleteFiles.js';
-import { LogSummary } from './pipes/clean/LogSummary.js';
+import { CleanSummary } from './pipes/clean/CleanSummary.js';
 
 dotenv.config();
 
@@ -24,6 +24,6 @@ const pipeline = new Pipeline();
 
 pipeline.add(new CleanDirs(DIRS));
 pipeline.add(new DeleteFiles(BUILD_DIR));
-pipeline.add(new LogSummary(dirCount, fileCount));
+pipeline.add(new CleanSummary(dirCount, fileCount));
 
 pipeline.run();

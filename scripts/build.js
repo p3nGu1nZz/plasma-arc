@@ -3,8 +3,7 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import chalk from 'chalk';
-import { Pipeline } from './utility/pipeline.js';
+import { Pipeline } from './utility/Pipeline.js';
 import { CreateOut } from './pipes/build/CreateOut.js';
 import { CopySrc } from './pipes/build/CopySrc.js';
 import { LogIncludes } from './pipes/build/LogIncludes.js';
@@ -13,6 +12,7 @@ import { CompileJS } from './pipes/build/CompileJS.js';
 import { CopyPublic } from './pipes/build/CopyPublic.js';
 import { EmbedShaders } from './pipes/build/EmbedShaders.js';
 import { UpdateIndex } from './pipes/build/UpdateIndex.js';
+import { BuildSummary } from './pipes/build/BuildSummary.js';
 
 dotenv.config();
 
@@ -41,12 +41,6 @@ pipeline.add(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
 pipeline.add(new CopyPublic(SOURCE_DIRS, SPACE_DIR, PUBLIC_FILE_TYPES));
 pipeline.add(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
 pipeline.add(new UpdateIndex(SPACE_DIR, MODULE));
-
-pipeline.add(new Pipe('log', () => {
-    console.log();
-    console.log(chalk.blue(`Total dirs created: ${dirCount}`));
-    console.log(chalk.blue(`Total files processed: ${fileCount}`));
-    console.log();
-}));
+pipeline.add(new BuildSummary(dirCount, includedFileCount));
 
 pipeline.run();

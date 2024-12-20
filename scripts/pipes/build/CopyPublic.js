@@ -1,7 +1,7 @@
 // scripts/pipes/build/CopyPublic.js
 
 import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/files.js';
+import { Files } from '../../utility/Files.js';
 import path from 'path';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';

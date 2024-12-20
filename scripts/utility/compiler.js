@@ -7,7 +7,7 @@ import chalk from 'chalk';
 import fs from 'fs';
 import PrettyError from 'pretty-error';
 import { sync as globSync } from 'glob';
-import { Files } from './files.js';
+import { Files } from './Files.js';
 
 const pe = new PrettyError();
 

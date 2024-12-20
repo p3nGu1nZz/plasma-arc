@@ -23,7 +23,8 @@ class Pipeline {
         console.log(chalk.green(`Pipeline Start`));
         try {
             this.pipes.forEach((pipe) => pipe.run());
-            console.log(chalk.green(`Pipeline Complete`));
+            console.log(chalk.green(`Pipeline Complete!`));
+            console.log();
         } catch (err) {
             console.error(chalk.red(`Pipeline execution failed: ${err.message}`));
             console.error(pe.render(err));

@@ -5,7 +5,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
-import { Files } from '../../utility/files.js';
+import { Files } from '../../utility/Files.js';
 
 const pe = new PrettyError();
 
