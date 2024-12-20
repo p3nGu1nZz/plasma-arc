@@ -17,12 +17,11 @@ const EXCLUDE_PATTERNS = process.env.EXCLUDE_PATTERNS.split(',');
 class Files {
     static create(dirPath) {
         try {
-            if (!fs.existsSync(dirPath)) {
-                fs.mkdirSync(dirPath, { recursive: true });
-                console.log(chalk.green(`Created directory: ${dirPath}`));
-            } else {
-                console.log(chalk.yellow(`Directory already exists: ${dirPath}`));
+            if (fs.existsSync(dirPath)) {
+                fs.rmSync(dirPath, { recursive: true, force: true });
             }
+            fs.mkdirSync(dirPath, { recursive: true });
+            console.log(chalk.green(`Directory created: ${dirPath}`));
         } catch (err) {
             console.error(chalk.red(`Error creating directory: ${err.message}`));
             console.error(pe.render(err));
@@ -64,8 +63,10 @@ class Files {
         try {
             if (this.isDir(filePath)) {
                 return fs.readdirSync(filePath);
-            } else {
+            } else if (this.isFile(filePath)) {
                 return fs.readFileSync(filePath, 'utf-8');
+            } else {
+                throw new Error('Path is neither a file nor a directory');
             }
         } catch (err) {
             console.error(chalk.red(`Error reading file or directory: ${err.message}`));
@@ -81,7 +82,7 @@ class Files {
                 fs.mkdirSync(dir, { recursive: true });
             }
             fs.writeFileSync(filePath, content, 'utf-8');
-            console.log(chalk.green(`Written to: ${filePath}`));
+            console.log(chalk.green(`File written: ${filePath}`));
         } catch (err) {
             console.error(chalk.red(`Error writing to file: ${err.message}`));
             console.error(pe.render(err));
@@ -113,11 +114,7 @@ class Files {
 
     static exclude(filePath, excludePatterns = EXCLUDE_PATTERNS) {
         try {
-            const patternMatched = excludePatterns.some(pattern => match([filePath], pattern).length > 0);
-            if (patternMatched) {
-                console.log(chalk.yellow(`Exclude: ${filePath}`));
-            }
-            return patternMatched;
+            return excludePatterns.some(pattern => match([filePath], pattern).length > 0);
         } catch (err) {
             console.error(chalk.red(`Error excluding file: ${err.message}`));
             console.error(pe.render(err));
@@ -127,11 +124,7 @@ class Files {
 
     static include(filePath, includePatterns = INCLUDE_PATTERNS) {
         try {
-            const patternMatched = includePatterns.some(pattern => match([filePath], pattern).length > 0);
-            if (patternMatched) {
-                console.log(chalk.green(`Include: ${filePath}`));
-            }
-            return patternMatched;
+            return includePatterns.some(pattern => match([filePath], pattern).length > 0);
         } catch (err) {
             console.error(chalk.red(`Error including file: ${err.message}`));
             console.error(pe.render(err));

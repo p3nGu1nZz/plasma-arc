@@ -26,10 +26,19 @@ class Pipeline {
             console.log(chalk.green(`Pipeline Complete!`));
             console.log();
         } catch (err) {
-            console.error(chalk.red(`Pipeline execution failed: ${err.message}`));
-            console.error(pe.render(err));
-            process.exit(1); // Gracefully exit on error
+            this.handleError(err);
         }
+    }
+
+    handleError(err) {
+        console.error(chalk.red(`Pipeline execution failed: ${err.message}`));
+        console.error(pe.render(err));
+        this.exit();
+    }
+
+    exit() {
+        console.log(chalk.red(`Pipeline exiting...`));
+        process.exit(1);
     }
 }
 

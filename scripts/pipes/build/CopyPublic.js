@@ -13,10 +13,10 @@ class CopyPublic extends Pipe {
     constructor(publicDirs, spaceDir, publicFileTypes) {
         super('copyPublic', () => {
             try {
-                console.log(chalk.blue(`Public directories: ${publicDirs.join(', ')}`));
+                console.log(chalk.cyan(`Public directories: ${publicDirs.join(', ')}`));
 
                 publicDirs.forEach((publicDir) => {
-                    console.log(chalk.blue(`Processing public directory: ${publicDir}`));
+                    console.log(chalk.cyan(`Processing public directory: ${publicDir}`));
                     const copyRecursiveSync = (src, dest) => {
                         if (Files.isDir(src)) {
                             if (!Files.exists(dest)) {
@@ -29,7 +29,6 @@ class CopyPublic extends Pipe {
                             const isValidFile = publicFileTypes.some(type => src.endsWith(type.trim().substring(1)));
                             if (isValidFile) {
                                 Files.write(dest, Files.read(src));
-                                console.log(chalk.green(`Copied file: ${Files.shorten(src)} to ${Files.shorten(dest)}`));
                             } else {
                                 console.log(chalk.yellow(`Skipped file: ${Files.shorten(src)}`));
                             }

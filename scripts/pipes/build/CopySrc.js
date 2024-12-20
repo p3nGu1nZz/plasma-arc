@@ -1,6 +1,5 @@
 // pipes/build/CopySrc.js
 
-import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
 import { globSync } from 'glob';
@@ -14,20 +13,20 @@ class CopySrc {
         this.srcDirs = srcDirs;
         this.outDir = outDir;
         this.spaceDir = spaceDir;
-        this.excludePatterns = excludePatterns;
+        this.excludePatterns = excludePatterns.concat([`${process.env.SHADERS_DIR}/**`]);
     }
 
     execute() {
         try {
             this.srcDirs.forEach((srcDir) => {
                 const filesInDir = Files.read(srcDir);
-                console.log(chalk.blue(`Files in directory ${srcDir}: ${filesInDir.join(', ')}`));
+                console.log(chalk.cyan(`Files in directory ${srcDir}: ${filesInDir.join(', ')}`));
 
                 const pattern = `${srcDir.replace(/\\/g, "/")}/**/*`;
-                console.log(chalk.blue(`Using glob pattern: ${pattern}`));
+                console.log(chalk.cyan(`Using glob pattern: ${pattern}`));
 
                 const files = globSync(pattern, { ignore: this.excludePatterns });
-                console.log(chalk.blue(`Files found with glob: ${files.length}`));
+                console.log(chalk.cyan(`Files found with glob: ${files.length}`));
 
                 if (!files.length) {
                     console.warn(chalk.yellow(`No files found in ${srcDir}`));

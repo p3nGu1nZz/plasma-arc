@@ -10,6 +10,7 @@ import { LogIncludes } from './pipes/build/LogIncludes.js';
 import { CreateSpace } from './pipes/build/CreateSpace.js';
 import { CompileJS } from './pipes/build/CompileJS.js';
 import { CopyPublic } from './pipes/build/CopyPublic.js';
+import { CopyShaders } from './pipes/build/CopyShaders.js';
 import { EmbedShaders } from './pipes/build/EmbedShaders.js';
 import { UpdateIndex } from './pipes/build/UpdateIndex.js';
 import { BuildSummary } from './pipes/build/BuildSummary.js';
@@ -28,6 +29,7 @@ const EXCLUDE = process.env.EXCLUDE_PATTERNS.split(',');
 const INCLUDE = process.env.INCLUDE_PATTERNS.split(',');
 const MODULE = process.env.MODULE_NAME;
 const PUBLIC_FILE_TYPES = process.env.PUBLIC_FILE_TYPES.split(',');
+const SHADERS_DIR = process.env.SHADERS_DIR;
 
 let includedFileCount = 0;
 let dirCount = 0;
@@ -40,8 +42,9 @@ pipeline.add(new LogIncludes(includedFileCount));
 pipeline.add(new CreateSpace(SPACE_DIR));
 pipeline.add(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
 pipeline.add(new CopyPublic([PUBLIC_DIR], SPACE_DIR, PUBLIC_FILE_TYPES));
+pipeline.add(new CopyShaders(SHADERS_DIR, OUT_DIR));
 pipeline.add(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
 pipeline.add(new UpdateIndex(SPACE_DIR, MODULE));
 pipeline.add(new BuildSummary(dirCount, includedFileCount));
 
-pipeline.execute();
+pipeline.execute().catch((err) => pipeline.handleError(err));

@@ -30,7 +30,6 @@ class Compiler {
 
         const processor = new Processor();
 
-        // Configure Processor
         if (options.removeComments) {
             processor.addProcessor(new RemoveSingleLineComments());
             processor.addProcessor(new RemoveMultiLineComments());
