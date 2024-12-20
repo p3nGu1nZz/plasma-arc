@@ -1,21 +1,4 @@
-/**
- * @file scripts/utility/files.js
- * @description Utility class for handling file and directory operations.
- * @version 1.0.0
- * @license MIT
- * author: K. Rawson
- * @contact rawsonkara@gmail.com
- * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * 
- * Imports:
- * - fs: Node.js file system module for file operations.
- * - path: Node.js path module for handling file paths.
- * - chalk: For color-coded logging.
- * - dotenv: For environment variable management.
- * - pretty-error: For improved error stack traces.
- * - { match } from 'minimatch': For pattern matching.
- */
-
+// scripts/utility/files.js
 import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
@@ -104,6 +87,8 @@ class Files {
 
     static copy(src, dest) {
         try {
+            const destDir = path.dirname(dest);
+            Files.create(destDir);
             fs.copyFileSync(src, dest);
             console.log(chalk.yellow(`Copied: ${Files.shorten(src)} to ${Files.shorten(dest)}`));
         } catch (err) {

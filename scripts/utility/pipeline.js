@@ -1,17 +1,4 @@
-/**
- * @file scripts/utility/pipeline.js
- * @description Utility class for managing a sequence of tasks (pipes) in a pipeline.
- * @version 1.0.0
- * @license MIT
- * @author: K. Rawson
- * @contact rawsonkara@gmail.com
- * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * 
- * Imports:
- * - chalk: For color-coded logging.
- * - dotenv: For environment variable management.
- * - pretty-error: For improved error stack traces.
- */
+// scripts/utility/pipeline.js
 
 import chalk from 'chalk';
 import dotenv from 'dotenv';
@@ -22,24 +9,6 @@ const pe = new PrettyError();
 
 // Load environment variables from .env file
 dotenv.config();
-
-class Pipe {
-    constructor(name, action) {
-        this.name = name;
-        this.action = action;
-    }
-
-    run() {
-        console.log(chalk.green(`Run: ${this.name}`));
-        try {
-            this.action();
-        } catch (err) {
-            console.error(chalk.red(`Error in ${this.name}: ${err.message}`));
-            console.error(pe.render(err));
-            throw err;
-        }
-    }
-}
 
 class Pipeline {
     constructor() {
@@ -63,4 +32,4 @@ class Pipeline {
     }
 }
 
-export { Pipeline, Pipe };
+export { Pipeline };
