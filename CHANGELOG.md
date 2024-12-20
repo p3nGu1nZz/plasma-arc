@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] - 2023-10-25
+
+### Added
+- Added `CopyShaders` class to copy shader files to the output directory.
+- Added logging to `EmbedShaders` to indicate the number of shaders embedded.
+
+### Changed
+- Updated `fetchShaderCode` to check for embedded shaders in the global `shaders` constant.
+- Simplified `fetchShaderCode` by extracting embedded string logic into a separate function.
+- Ensured `InitializeShaders` uses `fetchShaderCode` to fetch shader code.
+- Adjusted build pipeline to include shader embedding and copying steps.
+- Improved readability and maintainability of the code by reducing nested conditions and redundant comments.
+
+### Fixed
+- Fixed issues with shader file paths and environment variable usage in the build pipeline.
 
 ### [1.0.0] - 2024-12-18
 #### Added

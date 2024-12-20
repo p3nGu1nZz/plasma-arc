@@ -1,36 +1,48 @@
 # Security Policy
 
-Ensuring the security of our project is a top priority. This document outlines the process for reporting vulnerabilities and how we handle such reports. We appreciate your cooperation in maintaining the security and integrity of the Plasma Arc Project.
+## Supported Versions
+
+The following versions of the project are currently supported with security updates:
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 1.0.0   | :white_check_mark: |
 
 ## Reporting a Vulnerability
 
-We take the security of our project seriously. If you discover a security vulnerability, we appreciate your help in disclosing it responsibly.
+If you discover a security vulnerability within this project, please follow these steps:
 
-### How to Report
+1. **Do not open a public issue.** Instead, send an email to the project maintainer:
+    - **Email:** rawsonkara@gmail.com
 
-1. **Email**: Send an email to our security team at [rawsonkara@gmail.com](mailto:rawsonkara@gmail.com) with the subject line **Security Vulnerability Report**.
-2. **Include Details**: Provide as much detail as possible about the vulnerability. Include the steps to reproduce the issue, any potential impact, and your contact information.
-3. **Confidentiality**: We will handle your report with the highest level of confidentiality and will not share the details outside of our security team until the issue is resolved.
+2. Include the following details in your email:
+    - A description of the vulnerability.
+    - Steps to reproduce the vulnerability.
+    - Any potential impact or exploit scenarios.
 
-### What to Expect
-
-1. **Acknowledgment**: We will acknowledge receipt of your vulnerability report within 48 hours.
-2. **Evaluation**: Our security team will evaluate the report and determine the severity of the issue.
-3. **Resolution**: We will work to resolve the vulnerability as quickly as possible and will provide you with updates throughout the process.
-4. **Disclosure**: Once the vulnerability is resolved, we will disclose the issue and credit the reporter if they desire.
-
-### Scope
-
-This policy applies to any vulnerabilities identified in the project repository, including:
-- The core application code
-- Dependencies and libraries
-- Documentation and configurations
+3. The project maintainer will acknowledge receipt of your email within 48 hours and will work with you to understand and address the issue.
 
 ## Security Best Practices
 
-In addition to reporting vulnerabilities, we encourage all contributors to follow security best practices:
-- Keep dependencies up to date.
-- Review code changes for potential security issues.
-- Use secure coding guidelines and tools.
+To ensure the security of the project, please follow these best practices:
 
-We thank you for your efforts to make the Plasma Arc Project secure for everyone.
+- **Keep dependencies up to date:** Regularly update project dependencies to the latest versions to ensure that security patches are applied.
+- **Use environment variables:** Store sensitive information such as API tokens and configuration settings in environment variables. Do not hard-code sensitive information in the source code.
+- **Validate input:** Always validate and sanitize user input to prevent injection attacks and other security vulnerabilities.
+- **Use HTTPS:** Ensure that all communication between the client and server is encrypted using HTTPS.
+
+## Build and Deployment Security
+
+- **Environment Variables:** Ensure that sensitive information such as API tokens and configuration settings are stored in environment variables. Do not hard-code sensitive information in the source code.
+- **Access Control:** Restrict access to the build and deployment environment to authorized personnel only.
+- **Regular Audits:** Conduct regular security audits of the build and deployment process to identify and address potential vulnerabilities.
+
+## Additional Resources
+
+For more information on security best practices, please refer to the following resources:
+
+- [OWASP Top Ten](https://owasp.org/www-project-top-ten/)
+- [CWE/SANS Top 25 Most Dangerous Software Errors](https://cwe.mitre.org/top25/archive/2020/2020_cwe_top25.html)
+- [Node.js Security Best Practices](https://nodejs.dev/learn/nodejs-security-best-practices)
+
+Thank you for helping to keep this project secure!

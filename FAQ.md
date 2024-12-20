@@ -1,68 +1,117 @@
-# Frequently Asked Questions (FAQ)
+# Plasma Arc Project FAQ
 
-## General Questions
+## General
 
-**Q: What is the Plasma Arc Project?**  
-A: The Plasma Arc Project is an advanced simulation platform for plasma arcs, leveraging WebGPU to provide high-performance and realistic visualizations for research and educational purposes.
+### What is the Plasma Arc Project?
+The Plasma Arc Project is a WebGPU-based simulation that handles the transformation of vertices and the sampling of textures to produce the final rendered image. It aims to provide a high-performance rendering solution using modern web technologies.
 
-**Q: How can I get started with the Plasma Arc Project?**  
-A: You can get started by following the installation instructions in the [**README**](README.md). Ensure you have the necessary prerequisites and a WebGPU-compatible browser.
+### Where can I find the source code?
+The source code is available on [GitHub](https://github.com/p3nGu1nZz/plasma-arc).
 
-**Q: Who can contribute to the project?**  
-A: Anyone is welcome to contribute! Check out our [**CONTRIBUTING.md**](CONTRIBUTING.md) file for more details on how to get involved.
+## Installation
 
-**Q: What license is the Plasma Arc Project released under?**  
-A: The project is released under the MIT License, allowing you to use, modify, and distribute the software with minimal restrictions.
+### How do I install the project?
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/p3nGu1nZz/plasma-arc.git
+    cd plasma-arc
+    ```
 
-**Q: Where can I see a live demo of the project?**  
-A: You can check out a live demo on [**Hugging Face Space**](https://huggingface.co/spaces/p3nGu1nZz/plasma-arc).
+2. Install dependencies:
+    ```sh
+    npm install
+    ```
 
-## Technical Questions
+3. Set up environment variables:
+    Create a `.env` file in the root directory with the following content:
+    ```properties
+    # Hugging Face Configuration
+    HF_TOKEN=your_hf_token
+    HF_PROJECT=plasma-arc
+    HF_ORG=your_hf_org
 
-**Q: What are the system requirements for running the simulation?**  
-A: You need Python 3.10 or higher and a WebGPU-compatible browser like Chrome Canary or Firefox Nightly. Specific hardware recommendations are outlined in the README.
+    # Build Configuration
+    SOURCE_DIRS=src
+    BUILD_DIR=build
+    OUT_DIR=out
+    SPACE_DIR=space
+    EXCLUDE_PATTERNS=**/test/**,**/*.test.js,**/node_modules/**
+    INCLUDE_PATTERNS=**/*.js,**/*.html
+    PUBLIC_FILE_TYPES=*.html,*.css,*.ico,*.jpg,*.png
+    MODULE_NAME=wgpu-render.module.js
+    ROOT_FILE=index.js
+    PUBLIC_DIR=public
+    SHADERS_DIR=src/shaders
+    ```
 
-**Q: How do I report bugs or request features?**  
-A: You can report bugs or request features by opening an issue in our [**GitHub repository**](https://github.com/p3nGu1nZz/plasma-arc/issues).
+## Usage
 
-**Q: What kind of performance can I expect?**  
-A: Performance will vary depending on your hardware. Our project is optimized for high performance on a range of devices, but using a powerful GPU will provide the best experience.
+### How do I build the project?
+Run the following command to build the project:
+```sh
+npm run build
+```
 
-**Q: Can I modify the simulation parameters?**  
-A: Yes, you can modify the configurations in the `config` object in `index.html` to adjust the simulation parameters to your needs.
+### How do I serve the project?
+Run the following command to serve the project:
+```sh
+npm start
+```
 
-**Q: Does the project support real-time updates?**  
-A: Yes, the project is designed to support real-time updates. Modifications to configurations will be reflected instantly when you refresh the browser.
+## Development
 
-**Q: What programming languages and technologies are used in the project?**  
-A: The project uses JavaScript for the frontend, Node.js for the backend server, and WebGPU for high-performance graphics rendering. We also use various libraries and modules to support these technologies.
+### How are shaders handled in the project?
+Shaders are embedded into the module during the build process. The `fetchShaderCode` function can fetch shader code from embedded strings, URLs, or the global `shaders` constant generated during the build process.
 
-## Community Questions
+### What is the build pipeline?
+The build pipeline includes the following steps:
+- Create output directory
+- Copy source files
+- Log included files
+- Create space directory
+- Compile JavaScript files
+- Copy public files
+- Copy shader files
+- Embed shaders into the module
+- Update index file
+- Generate build summary
 
-**Q: How can I join the community?**  
-A: You can join our vibrant community on the [**I-Made-This Discord**](https://discord.gg/Cm8MWryJMC) to participate in discussions, ask questions, and collaborate with other members.
+### How do I add a new shader?
+To add a new shader, place the shader file in the `src/shaders` directory. The build process will automatically embed the shader into the module.
 
-**Q: How can I stay updated with the latest news and updates?**  
-A: Follow our repository on GitHub and join our Discord community to stay informed about the latest developments, updates, and events.
+### How do I update an existing shader?
+To update an existing shader, modify the shader file in the `src/shaders` directory. The build process will automatically embed the updated shader into the module.
 
-**Q: Are there any community guidelines I should follow?**  
-A: Yes, please refer to our [**Code of Conduct**](CODE_OF_CONDUCT.md) for guidelines on how to interact respectfully and contribute positively to our community.
+### How do I debug the project?
+To debug the project, you can use the built-in debugging tools in your browser. Open the Developer Tools (usually by pressing F12 or right-clicking and selecting "Inspect") and navigate to the "Console" and "Sources" tabs to view logs and set breakpoints.
 
-**Q: How can I contribute to the project?**  
-A: You can contribute by submitting issues, pull requests, and participating in discussions on GitHub and Discord. Check out our [**CONTRIBUTING.md**](CONTRIBUTING.md) file for more details.
+### How do I run tests?
+Currently, the project does not include automated tests. You can manually test the project by running it in your browser and verifying that the expected behavior is observed.
 
-**Q: Are there any planned features or roadmap for the project?**  
-A: Yes, we have a roadmap for planned features and improvements. You can find it in the [**GitHub repository**](https://github.com/p3nGu1nZz/plasma-arc/projects).
+## Troubleshooting
 
-## Miscellaneous Questions
+### I encountered an error during the build process. What should I do?
+Check the error message for details. Common issues include missing environment variables or incorrect file paths. Ensure that your `.env` file is correctly set up and that all required directories and files are present.
 
-**Q: How is this project different from similar projects?**  
-A: The Plasma Arc Project leverages state-of-the-art WebGPU technology for high-performance simulations and focuses on providing a modular and extendable codebase. This allows for easier customization and integration with other tools and technologies.
+### How do I report a bug or request a feature?
+Please open an issue on the [GitHub repository](https://github.com/p3nGu1nZz/plasma-arc/issues) with detailed information about the bug or feature request.
 
-**Q: Can I use this project for commercial purposes?**  
-A: Yes, the project is released under the MIT License, which allows for commercial use. However, please review the license terms to ensure compliance.
+### The shaders are not loading correctly. What should I do?
+Ensure that the shader files are correctly placed in the `src/shaders` directory and that the build process has successfully embedded them into the module. Check the console for any error messages related to shader loading.
 
-**Q: Who do I contact for more information?**  
-A: For more information, you can contact us through GitHub issues or join our Discord community for direct support and discussions.
+## Security
 
-We hope this FAQ helps answer your questions! If you have more, feel free to reach out to us on [**GitHub Discussions**](https://github.com/p3nGu1nZz/plasma-arc/discussions/new/choose) or [**Discord**](https://discord.gg/Cm8MWryJMC).
+### How do I report a security vulnerability?
+If you discover a security vulnerability within this project, please follow these steps:
+1. **Do not open a public issue.** Instead, send an email to the project maintainer:
+    - **Email:** rawsonkara@gmail.com
+2. Include the following details in your email:
+    - A description of the vulnerability.
+    - Steps to reproduce the vulnerability.
+    - Any potential impact or exploit scenarios.
+3. The project maintainer will acknowledge receipt of your email within 48 hours and will work with you to understand and address the issue.
+
+## Contact
+
+### How can I contact the project maintainer?
+You can contact the project maintainer, K. Rawson, via email at rawsonkara@gmail.com.

@@ -1,58 +1,119 @@
-# Contributing to the Plasma Arc Project
+# Contributing to Plasma Arc Project
 
-First off, thanks for taking the time to contribute! 😊 Your help is greatly appreciated and helps to make this project even better.
-
-The following is a set of guidelines for contributing to the Plasma Arc Project. These are mostly guidelines, not rules. Use your best judgment, and feel free to propose changes to this document in a pull request.
+Thank you for your interest in contributing to the Plasma Arc Project! We welcome contributions from the community and are grateful for your support.
 
 ## How to Contribute
 
-Contributing to the Plasma Arc Project can be done in several ways: reporting bugs, suggesting enhancements, and submitting pull requests. Each of these contributions is invaluable to the growth and improvement of the project.
+### Reporting Issues
 
-### Reporting Bugs
+If you encounter any bugs or have suggestions for improvements, please open an issue on the [GitHub repository](https://github.com/p3nGu1nZz/plasma-arc/issues). Provide as much detail as possible, including steps to reproduce the issue and any relevant screenshots or logs.
 
-If you find a bug in the source code, you can help us by submitting an issue to our [**GitHub Repository**](https://github.com/p3nGu1nZz/plasma-arc/issues). Even better, you can submit a Pull Request with a fix.
+### Submitting Pull Requests
 
-- **Search for existing issues** to avoid duplicates.
-- **Use a clear and descriptive title** for the issue.
-- **Provide as much detail as possible**. Include OS version, browser version, and steps to reproduce the bug.
+1. **Fork the repository:**
+    ```sh
+    git fork https://github.com/p3nGu1nZz/plasma-arc.git
+    ```
 
-### Suggesting Enhancements
+2. **Clone your fork:**
+    ```sh
+    git clone https://github.com/your-username/plasma-arc.git
+    cd plasma-arc
+    ```
 
-To suggest an enhancement, please open an issue in our [**GitHub Repository**](https://github.com/p3nGu1nZz/plasma-arc/issues). Make sure to describe the enhancement in detail.
+3. **Create a new branch:**
+    ```sh
+    git checkout -b my-feature-branch
+    ```
 
-- **Use a clear and descriptive title** for the issue.
-- **Provide a detailed description** of the suggested enhancement.
-- **Explain why this enhancement would be useful** to other users.
+4. **Make your changes:**
+    - Follow the coding standards and guidelines outlined in the project.
+    - Ensure that your code is well-documented and includes comments where necessary.
+    - Write tests to cover your changes, if applicable.
 
-### Pull Requests
+5. **Commit your changes:**
+    ```sh
+    git commit -m "Description of my changes"
+    ```
 
-Pull Requests (PRs) are welcome! If you plan to submit a large feature or change, please open an issue first to discuss it with us. This helps avoid duplicated effort and ensures that your contribution fits within the project's scope.
+6. **Push your changes to your fork:**
+    ```sh
+    git push origin my-feature-branch
+    ```
 
-- **Fork the repository** to your own GitHub account.
-- **Clone the repository** to your local machine.
-- **Create a branch** for your changes.
-- **Commit your changes** to your branch.
-- **Push your branch** to your GitHub repository.
-- **Create a Pull Request** from your branch to the main repository's `main` branch.
+7. **Open a pull request:**
+    - Go to the [GitHub repository](https://github.com/p3nGu1nZz/plasma-arc) and open a pull request.
+    - Provide a detailed description of your changes and any relevant information.
+
+### Code Review
+
+All pull requests will be reviewed by the project maintainers. Please be patient as we review your contributions. We may request changes or provide feedback to ensure that the code meets the project's standards.
 
 ### Coding Standards
 
-To ensure consistency throughout the source code, please adhere to the following guidelines:
+- **Consistency:** Follow the existing coding style and conventions used in the project.
+- **Readability:** Write clear and readable code. Use meaningful variable and function names.
+- **Documentation:** Document your code with comments and provide clear commit messages.
 
-- **Write clean code** and follow the project's code style.
-- **Use meaningful commit messages**.
-- **Include comments** for complex code and functions.
-- **Write tests** for any new features or bug fixes.
+### Community Guidelines
 
-### Code of Conduct
+- **Respect:** Treat all contributors and users with respect and courtesy.
+- **Inclusivity:** Foster an inclusive environment where everyone feels welcome.
+- **Collaboration:** Work together with other contributors and share knowledge.
 
-Please note that this project adheres to a [**Code of Conduct**](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+## Development Workflow
+
+### Setting Up the Development Environment
+
+1. **Install dependencies:**
+    ```sh
+    npm install
+    ```
+
+2. **Set up environment variables:**
+    Create a `.env` file in the root directory with the following content:
+    ```properties
+    # Hugging Face Configuration
+    HF_TOKEN=your_hf_token
+    HF_PROJECT=plasma-arc
+    HF_ORG=your_hf_org
+
+    # Build Configuration
+    SOURCE_DIRS=src
+    BUILD_DIR=build
+    OUT_DIR=out
+    SPACE_DIR=space
+    EXCLUDE_PATTERNS=**/test/**,**/*.test.js,**/node_modules/**
+    INCLUDE_PATTERNS=**/*.js,**/*.html
+    PUBLIC_FILE_TYPES=*.html,*.css,*.ico,*.jpg,*.png
+    MODULE_NAME=wgpu-render.module.js
+    ROOT_FILE=index.js
+    PUBLIC_DIR=public
+    SHADERS_DIR=src/shaders
+    ```
+
+### Running the Build
+
+To build the project, run:
+```sh
+npm run build
+```
+
+### Running the Project
+
+To serve the project, run:
+```sh
+npm start
+```
+
+### Running Tests
+
+Currently, the project does not include automated tests. You can manually test the project by running it in your browser and verifying that the expected behavior is observed.
 
 ## Contact
 
-If you have any questions or need further clarification, feel free to reach out via:
+If you have any questions or need assistance, please contact the project maintainer:
 
-- **GitHub Issues**: For any general questions or issues.
-- **Discord Community**: Join our [**i-made-this Discord**](https://discord.gg/Cm8MWryJMC) for discussions and support.
+- **Email:** rawsonkara@gmail.com
 
-Thank you for contributing! 😊
+Thank you for contributing to the Plasma Arc Project!

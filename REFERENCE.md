@@ -1,6 +1,89 @@
-# WebGPU and Other References
+# Plasma Arc Project Reference
 
-This document provides references to various resources and bibliographic materials that are useful for understanding and contributing to the Plasma Arc Project.
+## Modules
+
+### `wgpu-shader.js`
+This module provides functions to fetch and initialize shader code for the WebGPU-based simulation.
+
+#### Functions
+- `fetchShaderCode(source)`: Fetches shader code from the given URL or embedded string.
+- `InitializeShaders(state)`: Initializes shaders by fetching the shader code.
+
+### `wgpu-render.module.js`
+This module contains the embedded shader code and the main entry point for the WebGPU-based simulation.
+
+#### Embedded Shader Code
+The shader code is embedded into the module during the build process and is accessible via the `shaders` constant.
+
+### `Pipeline.js`
+This module defines the `Pipeline` class, which manages the execution of a series of processing steps (pipes) in the build process.
+
+#### Methods
+- `add(pipe)`: Adds a pipe to the pipeline.
+- `execute()`: Executes all pipes in the pipeline.
+- `handleError(err)`: Handles errors during pipeline execution.
+- `exit()`: Exits the pipeline execution with an error.
+
+### `Files.js`
+This module provides utility functions for file and directory operations.
+
+#### Methods
+- `create(dirPath)`: Creates a directory.
+- `exists(filePath)`: Checks if a file or directory exists.
+- `isDir(filePath)`: Checks if a path is a directory.
+- `isFile(filePath)`: Checks if a path is a file.
+- `read(filePath)`: Reads the content of a file or directory.
+- `write(filePath, content)`: Writes content to a file.
+- `remove(filePath)`: Removes a file or directory.
+- `unlink(filePath)`: Unlinks a file.
+- `exclude(filePath, excludePatterns)`: Checks if a file should be excluded based on patterns.
+- `include(filePath, includePatterns)`: Checks if a file should be included based on patterns.
+- `flatten(file, src)`: Flattens a file path.
+- `shorten(filePath, max)`: Shortens a file path for display.
+
+### `EmbedShaders.js`
+This module defines the `EmbedShaders` class, which embeds shader code into the module during the build process.
+
+#### Methods
+- `constructor(outDir, spaceDir, moduleName)`: Initializes the `EmbedShaders` class with the output directory, space directory, and module name.
+- `execute()`: Embeds shader code into the module.
+
+### `CopyShaders.js`
+This module defines the `CopyShaders` class, which copies shader files to the output directory during the build process.
+
+#### Methods
+- `constructor(srcDir, outDir)`: Initializes the `CopyShaders` class with the source directory and output directory.
+- `execute()`: Copies shader files to the output directory.
+
+### `build.js`
+This script defines the build process for the project, including the creation of directories, copying of source files, compilation of JavaScript files, and embedding of shaders.
+
+#### Build Pipeline
+The build pipeline includes the following steps:
+- Create output directory
+- Copy source files
+- Log included files
+- Create space directory
+- Compile JavaScript files
+- Copy public files
+- Copy shader files
+- Embed shaders into the module
+- Update index file
+- Generate build summary
+
+### Environment Variables
+The following environment variables are used in the build process:
+- `SOURCE_DIRS`: Comma-separated list of source directories.
+- `BUILD_DIR`: Directory for build output.
+- `OUT_DIR`: Directory for compiled output.
+- `SPACE_DIR`: Directory for additional build artifacts.
+- `EXCLUDE_PATTERNS`: Comma-separated list of patterns to exclude from the build.
+- `INCLUDE_PATTERNS`: Comma-separated list of patterns to include in the build.
+- `PUBLIC_FILE_TYPES`: Comma-separated list of public file types to copy.
+- `MODULE_NAME`: Name of the output module file.
+- `ROOT_FILE`: Root file for the build.
+- `PUBLIC_DIR`: Directory for public files.
+- `SHADERS_DIR`: Directory for shader files.
 
 ## Math Libraries and Rendering Vertex Stuff
 
