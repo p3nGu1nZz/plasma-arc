@@ -9,26 +9,28 @@
  * @contact rawsonkara@gmail.com
  */
 
-function getEmbeddedString(source) {
-    if (source.startsWith('`') && source.endsWith('`')) {
-        return source.slice(1, -1);
-    }
-    return null;
-}
-
 export async function fetchShaderCode(source) {
-    if (typeof source !== 'string') {
-        throw new Error('Invalid shader source type');
+    try {
+        switch (true) {
+            case typeof source !== 'string':
+                throw new Error('Invalid shader source type');
+
+            case typeof g_SHADERS !== 'undefined' && source in g_SHADERS:
+                let shaderCode = g_SHADERS[source];
+                if (shaderCode.startsWith('```wgsl') && shaderCode.endsWith('```')) {
+                    shaderCode = shaderCode.slice(7, -3).trim();
+                }
+                return shaderCode;
+
+            default:
+                const response = await fetch(source);
+                shaderCode = await response.text();
+                g_SHADERS[source] = `\`\`\`wgsl\n${shaderCode}\n\`\`\``;
+                return shaderCode;
+        }
+    } catch (err) {
+        throw new Error(`Error fetching shader code: ${err.message}`);
     }
-    if (typeof shaders !== 'undefined' && source in shaders) {
-        return shaders[source];
-    }
-    const embeddedString = getEmbeddedString(source);
-    if (embeddedString !== null) {
-        return embeddedString;
-    }
-    const response = await fetch(source);
-    return await response.text();
 }
 
 export async function InitializeShaders(state) {

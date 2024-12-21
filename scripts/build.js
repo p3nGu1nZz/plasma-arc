@@ -14,6 +14,7 @@ import CopyShaders from './pipes/build/CopyShaders.js';
 import EmbedShaders from './pipes/build/EmbedShaders.js';
 import UpdateIndex from './pipes/build/UpdateIndex.js';
 import BuildSummary from './pipes/build/BuildSummary.js';
+import CompileWGSL from './pipes/build/CompileWGSL.js';
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ pipeline.add(new CreateSpace(SPACE_DIR));
 pipeline.add(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
 pipeline.add(new CopyPublic([PUBLIC_DIR], SPACE_DIR, PUBLIC_FILE_TYPES));
 pipeline.add(new CopyShaders(SHADERS_DIR, OUT_DIR));
+pipeline.add(new CompileWGSL(SOURCE_DIRS, OUT_DIR));
 pipeline.add(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
 pipeline.add(new UpdateIndex(SPACE_DIR, MODULE));
 pipeline.add(new BuildSummary(dirCount, includedFileCount));
