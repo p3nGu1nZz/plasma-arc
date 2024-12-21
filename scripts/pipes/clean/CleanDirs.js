@@ -1,7 +1,7 @@
 // scripts/pipes/clean/CleanDirs.js
 
-import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/Files.js';
+import Pipe from '../../utility/Pipe.js';
+import Files from '../../utility/Files.js';
 import path from 'path';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
@@ -45,4 +45,4 @@ class CleanDirs extends Pipe {
     }
 }
 
-export { CleanDirs };
+export default CleanDirs;

@@ -1,3 +1,5 @@
+// scripts/processors/RemoveDuplicateFunctions.js
+
 import Processor from '../utility/Processor.js';
 
 class RemoveDuplicateFunctions extends Processor {
@@ -5,7 +7,7 @@ class RemoveDuplicateFunctions extends Processor {
         super('removeDuplicateFunctions', /function\s+(\w+)\s*\(/g, (match, p1, offset, string) => {
             const functionDeclarations = new Set();
             if (functionDeclarations.has(p1)) {
-                return ''; // Remove duplicate function declaration
+                return '';
             }
             functionDeclarations.add(p1);
             return match;
@@ -13,4 +15,4 @@ class RemoveDuplicateFunctions extends Processor {
     }
 }
 
-export { RemoveDuplicateFunctions };
+export default RemoveDuplicateFunctions;

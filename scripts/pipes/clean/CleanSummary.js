@@ -1,5 +1,7 @@
+// scripts/pipes/clean/CleanSummary.js
+
 import chalk from 'chalk';
-import { Pipe } from '../../utility/Pipe.js';
+import Pipe from '../../utility/Pipe.js';
 
 class CleanSummary extends Pipe {
     constructor(dirCount, fileCount) {
@@ -12,4 +14,4 @@ class CleanSummary extends Pipe {
     }
 }
 
-export { CleanSummary };
+export default CleanSummary;

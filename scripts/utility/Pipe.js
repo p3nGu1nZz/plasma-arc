@@ -23,4 +23,4 @@ class Pipe {
     }
 }
 
-export { Pipe };
+export default Pipe;

@@ -42,4 +42,4 @@ class Pipeline {
     }
 }
 
-export { Pipeline };
+export default Pipeline;

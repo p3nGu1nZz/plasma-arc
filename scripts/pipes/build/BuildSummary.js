@@ -1,7 +1,7 @@
 // pipes/build/BuildSummary.js
 
 import chalk from 'chalk';
-import { Pipe } from '../../utility/Pipe.js';
+import Pipe from '../../utility/Pipe.js';
 
 class BuildSummary extends Pipe {
     constructor(dirCount, includedFileCount) {
@@ -14,4 +14,4 @@ class BuildSummary extends Pipe {
     }
 }
 
-export { BuildSummary };
+export default BuildSummary;

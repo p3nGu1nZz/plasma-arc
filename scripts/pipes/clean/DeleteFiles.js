@@ -1,5 +1,7 @@
-import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/Files.js';
+// scripts/pipes/clean/DeleteFiles.js
+
+import Pipe from '../../utility/Pipe.js';
+import Files from '../../utility/Files.js';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
 
@@ -21,4 +23,4 @@ class DeleteFiles extends Pipe {
     }
 }
 
-export { DeleteFiles };
+export default DeleteFiles;

@@ -1,3 +1,5 @@
+// scripts/processors/removeLocalImports.js
+
 import Processor from '../utility/Processor.js';
 
 class RemoveLocalImports extends Processor {
@@ -6,4 +8,4 @@ class RemoveLocalImports extends Processor {
     }
 }
 
-export { RemoveLocalImports };
+export default RemoveLocalImports;

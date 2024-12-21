@@ -1,7 +1,7 @@
 // scripts/pipes/build/EmbedShaders.js
 
-import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/Files.js';
+import Pipe from '../../utility/Pipe.js';
+import Files from '../../utility/Files.js';
 import path from 'path';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
@@ -51,4 +51,4 @@ class EmbedShaders extends Pipe {
     }
 }
 
-export { EmbedShaders };
+export default EmbedShaders;

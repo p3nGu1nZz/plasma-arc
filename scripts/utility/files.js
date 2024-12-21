@@ -153,4 +153,4 @@ class Files {
     }
 }
 
-export { Files };
+export default Files;

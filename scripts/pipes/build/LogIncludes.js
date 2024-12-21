@@ -1,6 +1,6 @@
 // scripts/pipes/build/LogIncludes.js
 
-import { Pipe } from '../../utility/Pipe.js';
+import Pipe from '../../utility/Pipe.js';
 import chalk from 'chalk';
 
 class LogIncludes extends Pipe {
@@ -11,4 +11,4 @@ class LogIncludes extends Pipe {
     }
 }
 
-export { LogIncludes };
+export default LogIncludes;

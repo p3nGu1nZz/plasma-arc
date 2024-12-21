@@ -3,17 +3,17 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { Pipeline } from './utility/Pipeline.js';
-import { CreateOut } from './pipes/build/CreateOut.js';
-import { CopySrc } from './pipes/build/CopySrc.js';
-import { LogIncludes } from './pipes/build/LogIncludes.js';
-import { CreateSpace } from './pipes/build/CreateSpace.js';
-import { CompileJS } from './pipes/build/CompileJS.js';
-import { CopyPublic } from './pipes/build/CopyPublic.js';
-import { CopyShaders } from './pipes/build/CopyShaders.js';
-import { EmbedShaders } from './pipes/build/EmbedShaders.js';
-import { UpdateIndex } from './pipes/build/UpdateIndex.js';
-import { BuildSummary } from './pipes/build/BuildSummary.js';
+import Pipeline from './utility/Pipeline.js';
+import CreateOut from './pipes/build/CreateOut.js';
+import CopySrc from './pipes/build/CopySrc.js';
+import LogIncludes from './pipes/build/LogIncludes.js';
+import CreateSpace from './pipes/build/CreateSpace.js';
+import CompileJS from './pipes/build/CompileJS.js';
+import CopyPublic from './pipes/build/CopyPublic.js';
+import CopyShaders from './pipes/build/CopyShaders.js';
+import EmbedShaders from './pipes/build/EmbedShaders.js';
+import UpdateIndex from './pipes/build/UpdateIndex.js';
+import BuildSummary from './pipes/build/BuildSummary.js';
 
 dotenv.config();
 

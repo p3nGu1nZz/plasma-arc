@@ -2,9 +2,9 @@
 
 import path from 'path';
 import chalk from 'chalk';
-import { globSync } from 'glob';
+import { sync as globSync } from 'glob';
 import PrettyError from 'pretty-error';
-import { Files } from '../../utility/Files.js';
+import Files from '../../utility/Files.js';
 
 const pe = new PrettyError();
 
@@ -56,4 +56,4 @@ class CopySrc {
     }
 }
 
-export { CopySrc };
+export default CopySrc;

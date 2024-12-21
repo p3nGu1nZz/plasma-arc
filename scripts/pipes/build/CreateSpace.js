@@ -1,7 +1,7 @@
 // scripts/pipes/build/CreateSpace.js
 
-import { Pipe } from '../../utility/Pipe.js';
-import { Files } from '../../utility/Files.js';
+import Pipe from '../../utility/Pipe.js';
+import Files from '../../utility/Files.js';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
 
@@ -22,4 +22,4 @@ class CreateSpace extends Pipe {
     }
 }
 
-export { CreateSpace };
+export default CreateSpace;

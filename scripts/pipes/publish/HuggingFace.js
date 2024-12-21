@@ -29,4 +29,4 @@ class HuggingFace extends Pipe {
     }
 }
 
-export { HuggingFace };
+export default HuggingFace;

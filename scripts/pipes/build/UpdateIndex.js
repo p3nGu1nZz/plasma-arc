@@ -1,11 +1,11 @@
 // scripts/pipes/build/UpdateIndex.js
 
-import { Pipe } from '../../utility/Pipe.js';
+import Pipe from '../../utility/Pipe.js';
 import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
-import { Files } from '../../utility/Files.js';
+import Files from '../../utility/Files.js';
 
 const pe = new PrettyError();
 
@@ -29,4 +29,4 @@ class UpdateIndex extends Pipe {
     }
 }
 
-export { UpdateIndex };
+export default UpdateIndex;

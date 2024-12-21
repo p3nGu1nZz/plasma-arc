@@ -1,10 +1,12 @@
+// scripts/clean.js
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
-import { Pipeline } from './utility/Pipeline.js';
-import { CleanDirs } from './pipes/clean/CleanDirs.js';
-import { DeleteFiles } from './pipes/clean/DeleteFiles.js';
-import { CleanSummary } from './pipes/clean/CleanSummary.js';
+import Pipeline from './utility/Pipeline.js';
+import CleanDirs from './pipes/clean/CleanDirs.js';
+import DeleteFiles from './pipes/clean/DeleteFiles.js';
+import CleanSummary from './pipes/clean/CleanSummary.js';
 
 dotenv.config();
 

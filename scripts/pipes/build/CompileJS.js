@@ -3,7 +3,7 @@
 import path from 'path';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
-import { Pipe } from '../../utility/Pipe.js';
+import Pipe from '../../utility/Pipe.js';
 import Compiler from '../../utility/Compiler.js';
 
 const pe = new PrettyError();
@@ -24,4 +24,4 @@ class CompileJS extends Pipe {
     }
 }
 
-export { CompileJS };
+export default CompileJS;

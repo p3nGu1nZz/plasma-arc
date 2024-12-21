@@ -7,12 +7,12 @@ import chalk from 'chalk';
 import fs from 'fs';
 import PrettyError from 'pretty-error';
 import { sync as globSync } from 'glob';
-import { Files } from './Files.js';
+import Files from './Files.js';
 import Processor from './Processor.js';
 import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js';
 import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
-import { RemoveDuplicateFunctions } from '../processors/removeDuplicateFunctions.js';
-import { RemoveLocalImports } from '../processors/removeLocalImports.js';
+import RemoveDuplicateFunctions from '../processors/removeDuplicateFunctions.js';
+import RemoveLocalImports from '../processors/removeLocalImports.js';
 
 const pe = new PrettyError();
 
@@ -43,7 +43,6 @@ class Compiler {
                 if (Files.include(filePath, INCLUDE) && !Files.exclude(filePath, EXCLUDE)) {
                     let data = Files.read(filePath);
 
-                    // Process text using Processor
                     data = processor.process(data);
 
                     outputLines.push(data);
