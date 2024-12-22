@@ -2,47 +2,45 @@
 
 import path from 'path';
 import chalk from 'chalk';
-import PrettyError from 'pretty-error';
 import Pipe from '../../utility/Pipe.js';
 import Files from '../../utility/Files.js';
 
-const pe = new PrettyError();
-
 class CopyPublic extends Pipe {
-    constructor(publicDirs, spaceDir, publicFileTypes) {
+    constructor(publicDirs, spaceDir, publicFileTypes, counters) {
         super('copyPublic', () => {
             try {
-                console.log(chalk.cyan(`Public directories: ${publicDirs.join(', ')}`));
-
-                publicDirs.forEach((publicDir) => {
-                    console.log(chalk.cyan(`Processing public directory: ${publicDir}`));
-                    const copyRecursiveSync = (src, dest) => {
-                        if (Files.isDir(src)) {
-                            if (!Files.exists(dest)) {
-                                Files.create(dest);
-                            }
-                            Files.read(src).forEach((childItemName) => {
-                                copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName));
-                            });
-                        } else {
-                            const isValidFile = publicFileTypes.some(type => src.endsWith(type.trim().substring(1)));
-                            if (isValidFile) {
-                                Files.write(dest, Files.read(src));
-                            } else {
-                                console.log(chalk.yellow(`Skipped file: ${Files.shorten(src)}`));
-                            }
-                        }
-                    };
-
-                    copyRecursiveSync(publicDir, spaceDir);
-                    console.log(chalk.cyan(`Finished copying: ${Files.shorten(publicDir)}`));
-                });
+                this.copyPublicFiles(publicDirs, spaceDir, publicFileTypes, counters);
             } catch (err) {
-                console.error(chalk.red(`Error copying public: ${err}`));
-                console.error(pe.render(err));
-                throw err;
+                this.handleLeak(err);
             }
         });
+    }
+
+    copyPublicFiles(publicDirs, spaceDir, publicFileTypes, counters) {
+        console.log(chalk.cyan(`Public directories: ${publicDirs.join(', ')}`));
+
+        publicDirs.forEach((publicDir) => {
+            console.log(chalk.cyan(`Processing public directory: ${publicDir}`));
+            this.copyRecursiveSync(publicDir, spaceDir, publicFileTypes, counters);
+            console.log(chalk.cyan(`Finished copying: ${Files.shorten(publicDir)}`));
+        });
+    }
+
+    copyRecursiveSync(src, dest, publicFileTypes, counters) {
+        if (Files.isDir(src)) {
+            Files.read(src).forEach((childItemName) => {
+                this.copyRecursiveSync(path.join(src, childItemName), path.join(dest, childItemName), publicFileTypes, counters);
+            });
+            counters.dirCount++;
+        } else {
+            const isValidFile = publicFileTypes.some(type => src.endsWith(type.trim().substring(1)));
+            if (isValidFile) {
+                Files.write(dest, Files.read(src));
+                counters.fileCount++;
+            } else {
+                console.log(chalk.yellow(`Skipped file: ${Files.shorten(src)}`));
+            }
+        }
     }
 }
 

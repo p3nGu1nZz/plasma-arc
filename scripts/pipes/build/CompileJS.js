@@ -2,31 +2,35 @@
 
 import path from 'path';
 import chalk from 'chalk';
-import PrettyError from 'pretty-error';
 import Pipe from '../../utility/Pipe.js';
 import Compiler from '../../utility/Compiler.js';
 
-const pe = new PrettyError();
-
 class CompileJS extends Pipe {
     constructor(outDir, spaceDir, moduleName, includePatterns, excludePatterns) {
-        super('compileJS', () => {
+        super('compileJS', async () => {
             try {
-                console.log(`Compiling files from directory: ${outDir}`);
-                const options = { 
-                    include: includePatterns, 
-                    exclude: excludePatterns, 
-                    sourceMaps: true, 
-                    removeComments: true,
-                    removeExtraLines: true
-                };
-                Compiler.compile(outDir, path.join(spaceDir, moduleName), options);
+                this.logStart(outDir);
+                const options = this.getCompileOptions(includePatterns, excludePatterns);
+                const destPath = path.join(spaceDir, moduleName);
+                await Compiler.compile(outDir, destPath, options);
             } catch (err) {
-                console.error(chalk.red(`Error during compile: ${err}`));
-                console.error(pe.render(err));
-                throw err;
+                this.handleLeak(err);
             }
         });
+    }
+
+    logStart(outDir) {
+        console.log(chalk.green.bold(`Compiling files from directory: ${outDir}`));
+    }
+
+    getCompileOptions(includePatterns, excludePatterns) {
+        return {
+            include: includePatterns,
+            exclude: excludePatterns,
+            sourceMaps: true,
+            removeComments: true,
+            removeExtraLines: true
+        };
     }
 }
 

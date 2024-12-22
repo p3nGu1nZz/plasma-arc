@@ -4,12 +4,9 @@ import Pipe from '../../utility/Pipe.js';
 import Files from '../../utility/Files.js';
 import path from 'path';
 import chalk from 'chalk';
-import PrettyError from 'pretty-error';
 import dotenv from 'dotenv';
 
 dotenv.config();
-    
-const pe = new PrettyError();
 
 class EmbedShaders extends Pipe {
     constructor(outDir, spaceDir, moduleName) {
@@ -19,21 +16,22 @@ class EmbedShaders extends Pipe {
 
             if (Files.exists(shadersFile)) {
                 try {
-                    const shaderCode = Files.read(shadersFile);
-                    const existingContent = Files.read(destFile);
-                    const finalContent = shaderCode + existingContent;
-
-                    Files.write(destFile, finalContent);
-                    console.log(chalk.magenta(`Embedded shaders into: ${Files.shorten(destFile)}`));
+                    this.embedShaders(shadersFile, destFile);
                 } catch (err) {
-                    console.error(chalk.red(`Error embedding shaders: ${err}`));
-                    console.error(pe.render(err));
-                    throw err;
+                    this.handleLeak(err);
                 }
             } else {
                 throw new Error(`Shaders file not found: ${Files.shorten(shadersFile)}`);
             }
         });
+    }
+
+    embedShaders(shadersFile, destFile) {
+        const shaderCode = Files.read(shadersFile);
+        const existingContent = Files.read(destFile);
+        const finalContent = shaderCode + existingContent;
+        Files.write(destFile, finalContent);
+        console.log(chalk.magenta(`Embedded shaders into: ${Files.shorten(destFile)}`));
     }
 }
 

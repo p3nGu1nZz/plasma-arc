@@ -21,10 +21,14 @@ class Pipeline {
         console.log(chalk.green(`Pipeline Start`));
         try {
             for (const pipe of this.pipes) {
-                await pipe.flow();
+                if (typeof pipe.flow === 'function') {
+                    await pipe.flow();
+                    console.log('');
+                } else {
+                    throw new Error(`Pipe ${pipe.name} does not have a flow function.`);
+                }
             }
             console.log(chalk.green(`Pipeline Complete!`));
-            console.log();
         } catch (err) {
             this.drain(err);
         }

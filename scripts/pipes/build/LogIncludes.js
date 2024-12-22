@@ -1,12 +1,12 @@
 // scripts/pipes/build/LogIncludes.js
 
-import Pipe from '../../utility/Pipe.js';
 import chalk from 'chalk';
+import Pipe from '../../utility/Pipe.js';
 
 class LogIncludes extends Pipe {
-    constructor(includedFileCount) {
+    constructor(counters) {
         super('logIncludes', () => {
-            console.log(chalk.blue(`Total included files: ${includedFileCount}`));
+            console.log(chalk.blue(`Total included files: ${counters.fileCount}`));
         });
     }
 }

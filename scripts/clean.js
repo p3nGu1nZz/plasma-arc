@@ -13,16 +13,16 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BUILD_DIR = path.join(__dirname, `../${process.env.BUILD_DIR}`);
-const SPACE_DIR = path.join(BUILD_DIR, 'space');
-const OUT_DIR = path.join(BUILD_DIR, 'out');
+const OUT_DIR = path.join(BUILD_DIR, process.env.OUT_DIR);
+const SPACE_DIR = path.join(BUILD_DIR, process.env.SPACE_DIR);
 const DIRS = [OUT_DIR, SPACE_DIR];
 
 const counters = { dirCount: 0, fileCount: 0 };
 
 const pipeline = new Pipeline();
 
-pipeline.add(new CleanDirs(DIRS, counters));
-pipeline.add(new DeleteFiles(BUILD_DIR));
-pipeline.add(new CleanSummary(counters.dirCount, counters.fileCount));
+pipeline.connect(new CleanDirs(DIRS, counters));
+pipeline.connect(new DeleteFiles(BUILD_DIR, counters));
+pipeline.connect(new CleanSummary(counters));
 
-pipeline.execute();
+pipeline.flow();

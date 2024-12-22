@@ -32,21 +32,20 @@ const MODULE = process.env.MODULE_NAME;
 const PUBLIC_FILE_TYPES = process.env.PUBLIC_FILE_TYPES.split(',');
 const SHADERS_DIR = process.env.SHADERS_DIR;
 
-let includedFileCount = 0;
-let dirCount = 0;
+const counters = { dirCount: 0, fileCount: 0 };
 
 const pipeline = new Pipeline();
 
-pipeline.add(new CreateOut(OUT_DIR));
-pipeline.add(new CopySrc(SOURCE_DIRS, OUT_DIR, SPACE_DIR, EXCLUDE));
-pipeline.add(new LogIncludes(includedFileCount));
-pipeline.add(new CreateSpace(SPACE_DIR));
-pipeline.add(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
-pipeline.add(new CopyPublic([PUBLIC_DIR], SPACE_DIR, PUBLIC_FILE_TYPES));
-pipeline.add(new CopyShaders(SHADERS_DIR, OUT_DIR));
-pipeline.add(new CompileWGSL(SOURCE_DIRS, OUT_DIR));
-pipeline.add(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
-pipeline.add(new UpdateIndex(SPACE_DIR, MODULE));
-pipeline.add(new BuildSummary(dirCount, includedFileCount));
+pipeline.connect(new CreateOut(OUT_DIR, counters));
+pipeline.connect(new CopySrc(SOURCE_DIRS, OUT_DIR, SPACE_DIR, EXCLUDE, counters));
+pipeline.connect(new LogIncludes(counters));
+pipeline.connect(new CreateSpace(SPACE_DIR, counters));
+pipeline.connect(new CompileJS(OUT_DIR, SPACE_DIR, MODULE, INCLUDE, EXCLUDE));
+pipeline.connect(new CopyPublic([PUBLIC_DIR], SPACE_DIR, PUBLIC_FILE_TYPES, counters));
+pipeline.connect(new CopyShaders(SHADERS_DIR, OUT_DIR, counters));
+pipeline.connect(new CompileWGSL(SOURCE_DIRS, OUT_DIR, counters));
+pipeline.connect(new EmbedShaders(OUT_DIR, SPACE_DIR, MODULE));
+pipeline.connect(new UpdateIndex(SPACE_DIR, MODULE));
+pipeline.connect(new BuildSummary(counters));
 
-pipeline.execute().catch((err) => pipeline.handleError(err));
+pipeline.flow().catch((err) => pipeline.drain(err));

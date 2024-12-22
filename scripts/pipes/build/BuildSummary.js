@@ -1,14 +1,14 @@
-// pipes/build/BuildSummary.js
+// scripts/pipes/build/BuildSummary.js
 
 import chalk from 'chalk';
 import Pipe from '../../utility/Pipe.js';
 
 class BuildSummary extends Pipe {
-    constructor(dirCount, includedFileCount) {
-        super('log', () => {
+    constructor(counters) {
+        super('buildSummary', () => {
             console.log();
-            console.log(chalk.blue(`Total dirs created: ${dirCount}`));
-            console.log(chalk.blue(`Total files processed: ${includedFileCount}`));
+            console.log(chalk.blue(`Total dirs created: ${counters.dirCount}`));
+            console.log(chalk.blue(`Total files processed: ${counters.fileCount}`));
             console.log();
         });
     }

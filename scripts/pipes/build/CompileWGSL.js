@@ -4,7 +4,6 @@ import Pipe from '../../utility/Pipe.js';
 import Files from '../../utility/Files.js';
 import path from 'path';
 import chalk from 'chalk';
-import PrettyError from 'pretty-error';
 import dotenv from 'dotenv';
 import Processor from '../../utility/Processor.js'; 
 import RemoveSingleLineComments from '../../processors/RemoveSingleLineComments.js';
@@ -12,10 +11,8 @@ import RemoveMultiLineComments from '../../processors/RemoveMultiLineComments.js
 
 dotenv.config();
 
-const pe = new PrettyError();
-
 class CompileWGSL extends Pipe {
-    constructor(srcDirs, outDir) {
+    constructor(srcDirs, outDir, counters) {
         super('compileWGSL', () => {
             const shadersSrcDir = srcDirs.find(dir => Files.exists(path.join(dir, 'shaders')));
             const shadersDestFile = path.join(outDir, process.env.SHADERS_FILE);
@@ -28,40 +25,43 @@ class CompileWGSL extends Pipe {
 
             if (Files.exists(shadersSrcPath)) {
                 try {
-                    const shaderFiles = Files.read(shadersSrcPath);
-                    if (shaderFiles.length === 0) {
-                        throw new Error(`No shaders found in: ${Files.shorten(shadersSrcPath)}`);
-                    }
-
-                    let shaderCode = 'const g_SHADERS = {\n';
-
-                    const processor = new Processor();
-                    processor.addProcessor(new RemoveSingleLineComments());
-                    processor.addProcessor(new RemoveMultiLineComments());
-
-                    shaderFiles.forEach((shader) => {
-                        const shaderPath = path.join(shadersSrcPath, shader);
-                        let content = Files.read(shaderPath);
-
-                        content = processor.process(content);
-
-                        shaderCode += `  "${shader}": \`\`\`wgsl\n${content}\n\`\`\`,\n`;
-                        console.log(chalk.cyan(`Processed shader: ${Files.shorten(shaderPath)}`));
-                    });
-
-                    shaderCode += '};\n\n';
-
-                    Files.write(shadersDestFile, shaderCode);
-                    console.log(chalk.magenta(`Processed shaders written to: ${Files.shorten(shadersDestFile)}`));
+                    this.processShaders(shadersSrcPath, shadersDestFile, counters);
                 } catch (err) {
-                    console.error(chalk.red(`Error processing shaders: ${err}`));
-                    console.error(pe.render(err));
-                    throw err;
+                    this.handleLeak(err);
                 }
             } else {
                 throw new Error(`Shaders source not found: ${Files.shorten(shadersSrcPath)}`);
             }
         });
+    }
+
+    processShaders(shadersSrcPath, shadersDestFile, counters) {
+        const shaderFiles = Files.read(shadersSrcPath);
+        if (shaderFiles.length === 0) {
+            throw new Error(`No shaders found in: ${Files.shorten(shadersSrcPath)}`);
+        }
+
+        let shaderCode = 'const g_SHADERS = {\n';
+
+        const processor = new Processor();
+        processor.addProcessor(new RemoveSingleLineComments());
+        processor.addProcessor(new RemoveMultiLineComments());
+
+        shaderFiles.forEach((shader) => {
+            const shaderPath = path.join(shadersSrcPath, shader);
+            let content = Files.read(shaderPath);
+
+            content = processor.process(content);
+
+            shaderCode += `  "${shader}": \`\`\`wgsl\n${content}\n\`\`\`,\n`;
+            console.log(chalk.cyan(`Processed shader: ${Files.shorten(shaderPath)}`));
+            counters.fileCount++;
+        });
+
+        shaderCode += '};\n\n';
+
+        Files.write(shadersDestFile, shaderCode);
+        console.log(chalk.magenta(`Processed shaders written to: ${Files.shorten(shadersDestFile)}`));
     }
 }
 

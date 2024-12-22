@@ -12,14 +12,22 @@ class Pipe {
     }
 
     async flow() {
-        console.log(chalk.green(`Flow: ${this.name}`));
+        this.logStart();
         try {
             await this.action();
         } catch (err) {
-            console.error(chalk.red(`Error in ${this.name}: ${err.message}`));
-            console.error(Pipe.pe.render(err));
-            throw err;
+            this.handleLeak(err);
         }
+    }
+
+    logStart() {
+        console.log(chalk.green(`Flowing: ${this.name}`));
+    }
+
+    handleLeak(err) {
+        console.error(`  ${chalk.red(`Leak detected during ${this.name}: ${err.message}`)}`);
+        console.error(Pipe.pe.render(err));
+        throw err;
     }
 }
 

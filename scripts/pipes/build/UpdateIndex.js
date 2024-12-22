@@ -1,28 +1,22 @@
 // scripts/pipes/build/UpdateIndex.js
 
-import Pipe from '../../utility/Pipe.js';
 import path from 'path';
-import fs from 'fs';
-import chalk from 'chalk';
-import PrettyError from 'pretty-error';
+import Pipe from '../../utility/Pipe.js';
 import Files from '../../utility/Files.js';
-
-const pe = new PrettyError();
+import chalk from 'chalk';
 
 class UpdateIndex extends Pipe {
     constructor(spaceDir, moduleName) {
         super('updateIndex', () => {
             const indexPath = path.join(spaceDir, 'index.html');
-            if (fs.existsSync(indexPath)) {
+            if (Files.exists(indexPath)) {
                 try {
-                    let content = fs.readFileSync(indexPath, 'utf-8');
+                    let content = Files.read(indexPath);
                     content = content.replace(/<script type="module" src=".*"><\/script>/, `<script type="module" src="${moduleName}"></script>`);
-                    fs.writeFileSync(indexPath, content);
+                    Files.write(indexPath, content);
                     console.log(chalk.cyan(`Update: ${Files.shorten(indexPath)}`));
                 } catch (err) {
-                    console.error(chalk.red(`Error updating index: ${err}`));
-                    console.error(pe.render(err));
-                    throw err;
+                    this.handleLeak(err);
                 }
             }
         });
