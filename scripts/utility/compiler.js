@@ -12,6 +12,9 @@ import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js'
 import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
 import RemoveLocalImports from '../processors/RemoveLocalImports.js';
 import RemoveDuplicateNewLines from '../processors/RemoveDuplicateNewLines.js';
+import RemoveExportFromDeclarations from '../processors/RemoveExportFromDeclarations.js';
+import GenerateNamedExports from '../processors/GenerateNamedExports.js';
+import MoveMainFunctionToEnd from '../processors/MoveMainFunctionToEnd.js';
 
 dotenv.config();
 
@@ -24,6 +27,8 @@ class Compiler {
         let input = '';
         let output = '';
         let count = 0;
+        let functions = [];
+        let consts = [];
 
         const processor = new Processor();
 
@@ -32,6 +37,9 @@ class Compiler {
             processor.addProcessor(new RemoveMultiLineComments());
         }
         processor.addProcessor(new RemoveLocalImports());
+        processor.addProcessor(new RemoveExportFromDeclarations(functions, consts));
+        processor.addProcessor(new GenerateNamedExports(functions, consts));
+        processor.addProcessor(new MoveMainFunctionToEnd());
         if (options.removeExtraLines) {
             processor.addProcessor(new RemoveDuplicateNewLines());
         }
@@ -52,6 +60,7 @@ class Compiler {
             }
 
             output = processor.process(input);
+
             Files.write(dest, output);
             console.log(chalk.magenta(`Compiled ${count} JS files into: ${Files.shorten(dest)}`));
         } catch (err) {

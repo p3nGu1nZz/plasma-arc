@@ -6,10 +6,13 @@ import Pipe from '../../utility/Pipe.js';
 class BuildSummary extends Pipe {
     constructor(counters) {
         super('buildSummary', () => {
-            console.log();
-            console.log(chalk.blue(`Total dirs created: ${counters.dirCount}`));
-            console.log(chalk.blue(`Total files processed: ${counters.fileCount}`));
-            console.log();
+            const startTime = global.CONFIG.START_TIME;
+            const endTime = performance.now();
+            const buildDuration = (endTime - startTime) / 1000;
+
+            console.log(chalk.blue.bold(`Total dirs created: ${counters.dirCount}`));
+            console.log(chalk.blue.bold(`Total files processed: ${counters.fileCount}`));
+            console.log(chalk.blue.bold(`Build duration: ${buildDuration.toFixed(2)} seconds`));
         });
     }
 }

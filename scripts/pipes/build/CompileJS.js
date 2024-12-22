@@ -9,9 +9,10 @@ class CompileJS extends Pipe {
     constructor(outDir, spaceDir, moduleName, includePatterns, excludePatterns) {
         super('compileJS', async () => {
             try {
-                this.logStart(outDir);
                 const options = this.getCompileOptions(includePatterns, excludePatterns);
                 const destPath = path.join(spaceDir, moduleName);
+
+                this.log(outDir, spaceDir, moduleName, destPath);
                 await Compiler.compile(outDir, destPath, options);
             } catch (err) {
                 this.handleLeak(err);
@@ -19,8 +20,11 @@ class CompileJS extends Pipe {
         });
     }
 
-    logStart(outDir) {
+    log(outDir, spaceDir, moduleName, destPath) {
         console.log(chalk.green.bold(`Compiling files from directory: ${outDir}`));
+        console.log(chalk.green.bold(`Space directory: ${spaceDir}`));
+        console.log(chalk.green.bold(`Module name: ${moduleName}`));
+        console.log(chalk.blue(`Destination path: ${destPath}`));
     }
 
     getCompileOptions(includePatterns, excludePatterns) {

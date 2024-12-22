@@ -15,17 +15,17 @@ export async function fetchShaderCode(source) {
             case typeof source !== 'string':
                 throw new Error('Invalid shader source type');
 
-            case typeof g_SHADERS !== 'undefined' && source in g_SHADERS:
-                let shaderCode = g_SHADERS[source];
-                if (shaderCode.startsWith('```wgsl') && shaderCode.endsWith('```')) {
-                    shaderCode = shaderCode.slice(7, -3).trim();
+            case typeof global.SHADERS !== 'undefined' && source in global.SHADERS:
+                let shaderCode = global.SHADERS[source];
+                if (shaderCode.startsWith('`') && shaderCode.endsWith('`')) {
+                    shaderCode = shaderCode.slice(1, -1).trim();
                 }
                 return shaderCode;
 
             default:
                 const response = await fetch(source);
                 shaderCode = await response.text();
-                g_SHADERS[source] = `\`\`\`wgsl\n${shaderCode}\n\`\`\``;
+                global.SHADERS[source] = `\`${shaderCode}\``;
                 return shaderCode;
         }
     } catch (err) {

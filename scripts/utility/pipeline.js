@@ -18,30 +18,37 @@ class Pipeline {
     }
 
     async flow() {
-        console.log(chalk.green(`Pipeline Start`));
+        console.log(chalk.green.bold(`Pipeline Opened`));
+        console.log();
         try {
             for (const pipe of this.pipes) {
+                console.log(chalk.green.bold(`Flowing: ${pipe.constructor.name}`));
                 if (typeof pipe.flow === 'function') {
                     await pipe.flow();
-                    console.log('');
                 } else {
-                    throw new Error(`Pipe ${pipe.name} does not have a flow function.`);
+                    throw new Error(`Pipe ${pipe.constructor.name} does not have a flow function.`);
                 }
+                console.log();
             }
-            console.log(chalk.green(`Pipeline Complete!`));
+            this.empty();
         } catch (err) {
             this.drain(err);
         }
     }
 
+    empty() {
+        console.log(chalk.green.bold(`Pipeline Complete! Flowing Strong!`));
+        console.log();
+    }
+
     drain(err) {
         console.error(chalk.red(`Pipeline flow clogged: ${err.message}`));
         console.error(Pipeline.pe.render(err));
-        this.close();
+        this.closeValve();
     }
 
-    close() {
-        console.log(chalk.red(`Pipeline closing...`));
+    closeValve() {
+        console.log(chalk.red(`Closing the pipeline...`));
         process.exit(1);
     }
 }

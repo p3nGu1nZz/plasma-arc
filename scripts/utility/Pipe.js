@@ -12,16 +12,11 @@ class Pipe {
     }
 
     async flow() {
-        this.logStart();
         try {
             await this.action();
         } catch (err) {
             this.handleLeak(err);
         }
-    }
-
-    logStart() {
-        console.log(chalk.green(`Flowing: ${this.name}`));
     }
 
     handleLeak(err) {
