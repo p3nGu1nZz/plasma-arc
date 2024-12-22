@@ -3,21 +3,21 @@
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
 
-const pe = new PrettyError();
-
 class Pipe {
+    static pe = new PrettyError();
+
     constructor(name, action) {
         this.name = name;
         this.action = action;
     }
 
-    async execute() {
-        console.log(chalk.green(`Execute: ${this.name}`));
+    async flow() {
+        console.log(chalk.green(`Flow: ${this.name}`));
         try {
             await this.action();
         } catch (err) {
             console.error(chalk.red(`Error in ${this.name}: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Pipe.pe.render(err));
             throw err;
         }
     }

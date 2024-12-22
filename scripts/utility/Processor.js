@@ -3,9 +3,9 @@
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
 
-const pe = new PrettyError();
-
 class Processor {
+    static pe = new PrettyError();
+
     constructor(name) {
         this.name = name || 'Unknown';
         this.processors = [];
@@ -24,8 +24,8 @@ class Processor {
             });
             return result;
         } catch (err) {
-            console.error(chalk.red(`Error processing content: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(chalk.red(`Error processing: ${err.message}`));
+            console.error(Processor.pe.render(err));
             throw err;
         }
     }

@@ -4,40 +4,40 @@ import chalk from 'chalk';
 import dotenv from 'dotenv';
 import PrettyError from 'pretty-error';
 
-const pe = new PrettyError();
-
 dotenv.config();
 
 class Pipeline {
+    static pe = new PrettyError();
+
     constructor() {
         this.pipes = [];
     }
 
-    add(pipe) {
+    connect(pipe) {
         this.pipes.push(pipe);
     }
 
-    async execute() {
+    async flow() {
         console.log(chalk.green(`Pipeline Start`));
         try {
             for (const pipe of this.pipes) {
-                await pipe.execute();
+                await pipe.flow();
             }
             console.log(chalk.green(`Pipeline Complete!`));
             console.log();
         } catch (err) {
-            this.handleError(err);
+            this.drain(err);
         }
     }
 
-    handleError(err) {
-        console.error(chalk.red(`Pipeline execution failed: ${err.message}`));
-        console.error(pe.render(err));
-        this.exit();
+    drain(err) {
+        console.error(chalk.red(`Pipeline flow clogged: ${err.message}`));
+        console.error(Pipeline.pe.render(err));
+        this.close();
     }
 
-    exit() {
-        console.log(chalk.red(`Pipeline exiting...`));
+    close() {
+        console.log(chalk.red(`Pipeline closing...`));
         process.exit(1);
     }
 }
