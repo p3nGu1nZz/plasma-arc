@@ -11,7 +11,6 @@ import Files from './Files.js';
 import Processor from './Processor.js';
 import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js';
 import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
-import RemoveDuplicateFunctions from '../processors/removeDuplicateFunctions.js';
 import RemoveLocalImports from '../processors/removeLocalImports.js';
 
 const pe = new PrettyError();
@@ -34,7 +33,6 @@ class Compiler {
             processor.addProcessor(new RemoveSingleLineComments());
             processor.addProcessor(new RemoveMultiLineComments());
         }
-        processor.addProcessor(new RemoveDuplicateFunctions());
         processor.addProcessor(new RemoveLocalImports());
 
         try {
