@@ -7,14 +7,13 @@ import { match } from 'minimatch';
 import fs from 'fs';
 import path from 'path';
 
-const pe = new PrettyError();
-
 dotenv.config();
 
-const INCLUDE_PATTERNS = process.env.INCLUDE_PATTERNS.split(',');
-const EXCLUDE_PATTERNS = process.env.EXCLUDE_PATTERNS.split(',');
-
 class Files {
+    static pe = new PrettyError();
+    static INCLUDE_PATTERNS = process.env.INCLUDE_PATTERNS.split(',');
+    static EXCLUDE_PATTERNS = process.env.EXCLUDE_PATTERNS.split(',');
+
     static create(dirPath) {
         try {
             if (fs.existsSync(dirPath)) {
@@ -24,7 +23,7 @@ class Files {
             console.log(chalk.green(`Directory created: ${dirPath}`));
         } catch (err) {
             console.error(chalk.red(`Error creating directory: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -34,7 +33,7 @@ class Files {
             return fs.existsSync(filePath);
         } catch (err) {
             console.error(chalk.red(`Error checking existence of file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -44,7 +43,7 @@ class Files {
             return fs.statSync(filePath).isDirectory();
         } catch (err) {
             console.error(chalk.red(`Error checking if path is a directory: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -54,7 +53,7 @@ class Files {
             return fs.statSync(filePath).isFile();
         } catch (err) {
             console.error(chalk.red(`Error checking if path is a file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -70,7 +69,7 @@ class Files {
             }
         } catch (err) {
             console.error(chalk.red(`Error reading file or directory: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -85,7 +84,7 @@ class Files {
             console.log(chalk.green(`File written: ${filePath}`));
         } catch (err) {
             console.error(chalk.red(`Error writing to file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -96,7 +95,7 @@ class Files {
             console.log(chalk.green(`Removed: ${filePath}`));
         } catch (err) {
             console.error(chalk.red(`Error removing file or directory: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -107,27 +106,27 @@ class Files {
             console.log(chalk.green(`Unlinked: ${filePath}`));
         } catch (err) {
             console.error(chalk.red(`Error unlinking file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
 
-    static exclude(filePath, excludePatterns = EXCLUDE_PATTERNS) {
+    static exclude(filePath, excludePatterns = Files.EXCLUDE_PATTERNS) {
         try {
             return excludePatterns.some(pattern => match([filePath], pattern).length > 0);
         } catch (err) {
             console.error(chalk.red(`Error excluding file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
 
-    static include(filePath, includePatterns = INCLUDE_PATTERNS) {
+    static include(filePath, includePatterns = Files.INCLUDE_PATTERNS) {
         try {
             return includePatterns.some(pattern => match([filePath], pattern).length > 0);
         } catch (err) {
             console.error(chalk.red(`Error including file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -137,7 +136,7 @@ class Files {
             return file.endsWith('.js') && src.includes('src');
         } catch (err) {
             console.error(chalk.red(`Error flattening file: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }
@@ -147,7 +146,7 @@ class Files {
             return filePath.length > max ? `...${filePath.slice(-max + 3)}` : filePath;
         } catch (err) {
             console.error(chalk.red(`Error shortening file path: ${err.message}`));
-            console.error(pe.render(err));
+            console.error(Files.pe.render(err));
             throw err;
         }
     }

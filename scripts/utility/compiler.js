@@ -1,3 +1,5 @@
+// scripts/utility/Compiler.js
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -8,7 +10,7 @@ import Files from './Files.js';
 import Processor from './Processor.js';
 import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js';
 import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
-import RemoveLocalImports from '../processors/removeLocalImports.js';
+import RemoveLocalImports from '../processors/RemoveLocalImports.js';
 import RemoveDuplicateNewLines from '../processors/RemoveDuplicateNewLines.js';
 
 dotenv.config();
@@ -17,11 +19,10 @@ class Compiler {
     static pe = new PrettyError();
     static __filename = fileURLToPath(import.meta.url);
     static __dirname = path.dirname(Compiler.__filename);
-    static INCLUDE = process.env.INCLUDE_PATTERNS.split(',');
-    static EXCLUDE = process.env.EXCLUDE_PATTERNS.split(',');
 
     static async compile(src, dest, options = {}) {
-        let outputLines = [];
+        let input = '';
+        let output = '';
         let count = 0;
 
         const processor = new Processor();
@@ -36,11 +37,10 @@ class Compiler {
         }
 
         try {
-            const files = sync(`${src}/**/*`, { ignore: Compiler.EXCLUDE });
+            const files = sync(`${src}/**/*`, { ignore: Files.EXCLUDE_PATTERNS });
             files.forEach((filePath) => {
-                if (Files.include(filePath, Compiler.INCLUDE) && !Files.exclude(filePath, Compiler.EXCLUDE)) {
-                    let data = Files.read(filePath).split('\n');
-                    outputLines = outputLines.concat(data);
+                if (Files.include(filePath) && !Files.exclude(filePath)) {
+                    input += Files.read(filePath);
                     count++;
                     console.log(chalk.green(`Include: ${Files.shorten(filePath)}`));
                 }
@@ -51,8 +51,8 @@ class Compiler {
                 process.exit(1);
             }
 
-            let finalCode = processor.process(outputLines.join('\n'));
-            Files.write(dest, finalCode);
+            output = processor.process(input);
+            Files.write(dest, output);
             console.log(chalk.magenta(`Compiled ${count} JS files into: ${Files.shorten(dest)}`));
         } catch (err) {
             console.error(chalk.red(`Error: Compilation failed`));
