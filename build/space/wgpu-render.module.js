@@ -42,18 +42,18 @@ struct Uniforms {
 
 import { mat4 } from 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js';
 
-import { CANVAS, CTX, COLORS, RENDER_PASS_DESCRIPTOR } from './wgpu-constants.js';
-import { config } from './wgpu-config.js';
 
-import { createState } from './wgpu-state.js';
-import { initializeDevice } from './wgpu-device.js';
-import { CreateBuffers } from './wgpu-buffer.js';
-import { InitializePipeline } from './wgpu-pipeline.js';
 
-import { generateGlyphTextureAtlas, createTextureFromSource } from './wgpu-utility.js';
-import { InitializeShaders } from './wgpu-shader.js';
-import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
-import { generateGlyphVerticesForText } from './wgpu-text.js';
+
+
+
+
+
+
+
+
+
+
 
 
 (async () => {
