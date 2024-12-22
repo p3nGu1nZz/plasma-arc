@@ -1,16 +1,15 @@
-// scripts/utility/Compiler.js
-
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import chalk from 'chalk';
 import PrettyError from 'pretty-error';
-import { sync as globSync } from 'glob';
+import { sync } from 'glob';
 import Files from './Files.js';
 import Processor from './Processor.js';
 import RemoveSingleLineComments from '../processors/RemoveSingleLineComments.js';
 import RemoveMultiLineComments from '../processors/RemoveMultiLineComments.js';
-import RemoveLocalImports from '../processors/RemoveLocalImports.js';
+import RemoveLocalImports from '../processors/removeLocalImports.js';
+import RemoveDuplicateNewLines from '../processors/RemoveDuplicateNewLines.js';
 
 dotenv.config();
 
@@ -32,16 +31,16 @@ class Compiler {
             processor.addProcessor(new RemoveMultiLineComments());
         }
         processor.addProcessor(new RemoveLocalImports());
+        if (options.removeExtraLines) {
+            processor.addProcessor(new RemoveDuplicateNewLines());
+        }
 
         try {
-            const files = globSync(`${src}/**/*`, { ignore: Compiler.EXCLUDE });
+            const files = sync(`${src}/**/*`, { ignore: Compiler.EXCLUDE });
             files.forEach((filePath) => {
                 if (Files.include(filePath, Compiler.INCLUDE) && !Files.exclude(filePath, Compiler.EXCLUDE)) {
-                    let data = Files.read(filePath);
-
-                    data = processor.process(data);
-
-                    outputLines.push(data);
+                    let data = Files.read(filePath).split('\n');
+                    outputLines = outputLines.concat(data);
                     count++;
                     console.log(chalk.green(`Include: ${Files.shorten(filePath)}`));
                 }
@@ -52,7 +51,7 @@ class Compiler {
                 process.exit(1);
             }
 
-            let finalCode = outputLines.join('\n');
+            let finalCode = processor.process(outputLines.join('\n'));
             Files.write(dest, finalCode);
             console.log(chalk.magenta(`Compiled ${count} JS files into: ${Files.shorten(dest)}`));
         } catch (err) {

@@ -1,8 +1,10 @@
+// scripts/processors/RemoveSingleLineComments.js
+
 import Processor from '../utility/Processor.js';
 
 class RemoveSingleLineComments extends Processor {
     constructor() {
-        super();
+        super('RemoveSingleLineComments');
         this.regex = /\/\/.*$/gm;
         this.replacement = '';
     }

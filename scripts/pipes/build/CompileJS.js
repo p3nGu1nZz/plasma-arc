@@ -13,7 +13,13 @@ class CompileJS extends Pipe {
         super('compileJS', () => {
             try {
                 console.log(`Compiling files from directory: ${outDir}`);
-                const options = { include: includePatterns, exclude: excludePatterns, sourceMaps: true, removeComments: true };
+                const options = { 
+                    include: includePatterns, 
+                    exclude: excludePatterns, 
+                    sourceMaps: true, 
+                    removeComments: true,
+                    removeExtraLines: true
+                };
                 Compiler.compile(outDir, path.join(spaceDir, moduleName), options);
             } catch (err) {
                 console.error(chalk.red(`Error during compile: ${err}`));

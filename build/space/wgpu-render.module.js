@@ -143,7 +143,6 @@ import { mat4 } from 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module
 
 
 
-
 export function generateGlyphTextureAtlas(canvas, ctx, config) {
     canvas.width = config.canvas.width;
     canvas.height = config.canvas.height;
@@ -178,7 +177,6 @@ export function createTextureFromSource(device, source, options = {}) {
 
 
 
-
 export function initializeTiming(state) {
     state.timing.fixedDeltaTime = 1 / 60;
     state.timing.maxFrameTime = 0.25;
@@ -191,7 +189,6 @@ export function initializeTiming(state) {
     state.timing.deltaTime = 0;
     state.timing.time = 0;
 }
-
 
 
 
@@ -226,7 +223,6 @@ export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVe
     state.glyphs.width = glyphData.width;
     state.glyphs.height = glyphData.height;
 }
-
 
 
 
@@ -268,7 +264,6 @@ export function generateGlyphVerticesForText(text, colors, config, glyphCanvas) 
     }
     return { vertexData, numGlyphs: offset / config.floatsPerVertex, width, height: y1 };
 }
-
 
 
 
@@ -316,7 +311,6 @@ export function createState(config) {
 }
 
 
-
 export async function fetchShaderCode(source) {
     try {
         switch (true) {
@@ -344,7 +338,6 @@ export async function fetchShaderCode(source) {
 export async function InitializeShaders(state) {
     state.webgpu.shaderCode = await fetchShaderCode('shaders.wgsl');
 }
-
 
 
 
@@ -391,8 +384,6 @@ export async function InitializePipeline(state) {
 
 
 
-
-
 export async function initializeDevice(state) {
     state.webgpu.context = state.canvas.getContext('webgpu');
     state.webgpu.device = await state.webgpu.adapter?.requestDevice();
@@ -411,7 +402,6 @@ export async function initializeDevice(state) {
         format: state.webgpu.presentationFormat,
     });
 }
-
 
 
 export const CANVAS = document.createElement('canvas');
@@ -433,7 +423,6 @@ export const RENDER_PASS_DESCRIPTOR = {
         storeOp: 'store',
     }],
 };
-
 
 
 export const config = {
@@ -472,7 +461,6 @@ export const config = {
 
 
 
-
 export function CreateBuffers(state, config) {
     const vertexBufferSize = config.maxGlyphs * config.vertsPerGlyph * config.floatsPerVertex * 4;
     state.webgpu.vertexBuffer = state.webgpu.device.createBuffer({
@@ -498,7 +486,3 @@ export function GenerateIndices(maxGlyphs) {
         return (i % 6 < 3 ? [ndx, ndx + 1, ndx + 2] : [ndx + 2, ndx + 1, ndx + 3])[i % 3];
     });
 }
-
-
-
-

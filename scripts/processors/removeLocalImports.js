@@ -1,8 +1,10 @@
+// scripts/processors/removeLocalImports.js
+
 import Processor from '../utility/Processor.js';
 
 class RemoveLocalImports extends Processor {
     constructor() {
-        super();
+        super('RemoveLocalImports');
         this.regex = /import\s+.*\s+from\s+['"](?!.*(http|https):\/\/).*['"];/g;
         this.replacement = '';
     }

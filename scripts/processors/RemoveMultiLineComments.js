@@ -2,7 +2,7 @@ import Processor from '../utility/Processor.js';
 
 class RemoveMultiLineComments extends Processor {
     constructor() {
-        super();
+        super('RemoveMultiLineComments');
         this.regex = /\/\*[\s\S]*?\*\//gm;
         this.replacement = '';
     }

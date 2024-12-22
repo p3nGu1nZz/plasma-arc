@@ -6,7 +6,8 @@ import PrettyError from 'pretty-error';
 const pe = new PrettyError();
 
 class Processor {
-    constructor() {
+    constructor(name) {
+        this.name = name || 'Unknown';
         this.processors = [];
     }
 
@@ -18,6 +19,7 @@ class Processor {
         try {
             let result = content;
             this.processors.forEach(processor => {
+                console.log(chalk.blue(`Using processor: ${processor.name}`));
                 result = processor.process(result);
             });
             return result;
