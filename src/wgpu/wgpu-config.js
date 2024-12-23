@@ -1,20 +1,12 @@
 /**
- * @file wgpu-config.js
- * @description Configuration settings for the WebGPU-based simulation. This file defines various constants 
- *              and parameters used throughout the project, including canvas dimensions, rendering settings, 
- *              and timing configurations.
+ * @file src/wgpu/wgpu-config.js
+ * @description Configuration settings for the WebGPU-based simulation.
  * @version 1.0.0
  * @license MIT
- * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @author K. Rawson
+ * @author Kara Rawson
  * @contact rawsonkara@gmail.com
- * 
- * Configuration:
- * - Glyph settings: glyphsAcrossTexture, glyphWidth, glyphHeight, maxGlyphs, vertsPerGlyph, floatsPerVertex
- * - Canvas settings: width, height
- * - Context settings: font, textBaseline, textAlign, fillStyle
- * - Render settings: zNear, zFar
- * - Timing settings: fixedDeltaTime, maxFrameTime, targetFps, frameDuration
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
 export const config = {
@@ -48,5 +40,8 @@ export const config = {
         targetFps: 60,
         frameDuration: 1000 / 60
     },
-    maxFPS: 60
+    maxFPS: 60,
+    dependencies: {
+        mat4: 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js'
+    }
 };

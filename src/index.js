@@ -9,8 +9,6 @@
  * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-import { mat4 } from 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js';
-
 import { CANVAS, CTX, COLORS, RENDER_PASS_DESCRIPTOR } from './wgpu-constants.js';
 import { config } from './wgpu-config.js';
 
@@ -25,7 +23,7 @@ import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
 
 async function Main() {
-    const state = createState(config);
+    const state = await createState(config);
 
     await InitializeAdapter(state);
     await InitializeCanvas(state);
@@ -60,6 +58,7 @@ function FixedUpdate(state) {
 }
 
 function Render(state) {
+    const { mat4 } = state.dependencies;
     const fov = 60 * Math.PI / 180;
     const aspect = state.canvas.clientWidth / state.canvas.clientHeight;
     const projectionMatrix = mat4.perspective(fov, aspect, config.render.zNear, config.render.zFar);
@@ -105,4 +104,5 @@ function GameLoop(state) {
     Tick(state);
 }
 
+// Call the main function to start the simulation
 Main();
