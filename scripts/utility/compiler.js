@@ -14,7 +14,6 @@ import RemoveLocalImports from '../processors/RemoveLocalImports.js';
 import RemoveDuplicateNewLines from '../processors/RemoveDuplicateNewLines.js';
 import RemoveExportFromDeclarations from '../processors/RemoveExportFromDeclarations.js';
 import GenerateNamedExports from '../processors/GenerateNamedExports.js';
-import MoveMainFunctionToEnd from '../processors/MoveMainFunctionToEnd.js';
 
 dotenv.config();
 
@@ -39,7 +38,6 @@ class Compiler {
         processor.addProcessor(new RemoveLocalImports());
         processor.addProcessor(new RemoveExportFromDeclarations(functions, consts));
         processor.addProcessor(new GenerateNamedExports(functions, consts));
-        processor.addProcessor(new MoveMainFunctionToEnd());
         if (options.removeExtraLines) {
             processor.addProcessor(new RemoveDuplicateNewLines());
         }
