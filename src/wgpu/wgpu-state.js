@@ -1,6 +1,6 @@
 /**
  * @file wgpu-state.js
- * @description This module initializes the state object for the WebGPU-based simulation.
+ * @description Initializes the state object for the WebGPU-based simulation.
  * @version 1.0.0
  * @license MIT
  * @author Kara Rawson
@@ -16,7 +16,8 @@ export async function createState(config) {
     return {
         render: {
             zNear: config.render.zNear,
-            zFar: config.render.zFar
+            zFar: config.render.zFar,
+            options: { ...config.render.options }
         },
         webgpu: {
             adapter: null,

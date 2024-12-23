@@ -6,7 +6,7 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
 export const CONFIG = {
@@ -56,6 +56,13 @@ export const CONFIG = {
         frameDuration: 1000 / 60
     },
     maxFPS: 60,
+    webgpu: {
+        glyphCanvas: {
+            style: {
+                backgroundColor: '#222'
+            }
+        }
+    },
     dependencies: {
         mat4: 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js'
     }

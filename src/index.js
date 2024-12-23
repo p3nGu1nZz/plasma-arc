@@ -6,7 +6,7 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
 const CANVAS = document.createElement('canvas');
@@ -19,10 +19,11 @@ import { initializeDevice } from './wgpu-device.js';
 import { CreateBuffers } from './wgpu-buffer.js';
 import { InitializePipeline } from './wgpu-pipeline.js';
 
-import { generateGlyphTextureAtlas, createTextureFromSource } from './wgpu-utility.js';
+import { createTextureFromSource } from './wgpu-utility.js';
 import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
+import { CreateCanvas } from './wgpu-canvas.js';
 
 async function Main() {
     const state = await createState(CONFIG);
@@ -41,10 +42,7 @@ async function _initializeAdapter(state) {
 }
 
 async function _initializeResources(state) {
-    state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, CONFIG);
-    document.body.appendChild(state.webgpu.glyphCanvas);
-    state.webgpu.glyphCanvas.style.backgroundColor = '#222';
-
+    CreateCanvas(state, CANVAS, CTX, CONFIG);
     CreateBuffers(state, CONFIG);
     GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, CONFIG.colors, CONFIG, createTextureFromSource);
 }
@@ -61,9 +59,9 @@ function Render(state) {
     const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
     const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
 
-    CONFIG.render.options.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
+    state.render.options.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
     const encoder = state.webgpu.device.createCommandEncoder();
-    const pass = encoder.beginRenderPass(CONFIG.render.options);
+    const pass = encoder.beginRenderPass(state.render.options);
 
     pass.setPipeline(state.webgpu.pipeline);
     mat4.rotateY(viewProjectionMatrix, state.timing.time, state.matrices.matrix);
