@@ -291,6 +291,4 @@ dist
 .pnp.*
 
 # builds
-build/**
-build/out/**
-build/space/**
+build/
