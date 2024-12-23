@@ -15,11 +15,12 @@ const CTX = CANVAS.getContext('2d');
 import { config } from './wgpu-config.js';
 
 import { createState } from './wgpu-state.js';
+import { Adapter } from './wgpu-adapter.js';
 import { initializeDevice } from './wgpu-device.js';
 import { CreateBuffers } from './wgpu-buffer.js';
 import { InitializePipeline } from './wgpu-pipeline.js';
 
-import { createTextureFromSource } from './wgpu-utility.js';
+import { createTextureFromSource, loadDependencies } from './wgpu-utility.js';
 import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
@@ -27,19 +28,16 @@ import { createCanvas, setupCanvas } from './wgpu-canvas.js';
 
 async function Main() {
     const canvas = setupCanvas(config);
-    const state = await createState(config, canvas);
+    const deps = await loadDependencies(config.dependencies);
+    const state = await createState(config, canvas, deps);
 
-    await _initializeAdapter(state);
+    await Adapter.createAdapter(state);
     await initializeDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
     await _initializeResources(state);
 
     _gameLoop(state);
-}
-
-async function _initializeAdapter(state) {
-    state.webgpu.adapter = await navigator.gpu.requestAdapter();
 }
 
 async function _initializeResources(state) {

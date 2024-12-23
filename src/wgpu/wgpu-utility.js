@@ -1,6 +1,6 @@
 /**
  * @file src/wgpu/wgpu-utility.js
- * @description Utility functions for generating glyph texture atlases and creating textures.
+ * @description Utility functions for generating glyph texture atlases, creating textures, and loading dependencies.
  * @version 1.0.0
  * @license MIT
  * @author K. Rawson
@@ -23,4 +23,12 @@ export function createTextureFromSource(device, source, options = {}) {
     );
 
     return texture;
+}
+
+export async function loadDependencies(dependenciesConfig) {
+    const dependencies = {};
+    for (const [key, value] of Object.entries(dependenciesConfig)) {
+        dependencies[key] = (await import(value))[key];
+    }
+    return dependencies;
 }

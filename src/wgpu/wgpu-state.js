@@ -6,11 +6,14 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
+ * @see {@link https://github.com/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-export async function createState(config, canvas) {
-    const dependencies = await _loadDependencies(config.dependencies);
+export async function createState(config, canvas, dependencies) {
+    const uniformValues = new Float32Array(config.floatsInUniformBuffer);
+    const matrix = new Float32Array(config.matrixSize);
+    const vertexSize = config.floatsPerVertex * config.vertexMultiplier;
+    const lastTime = performance.now();
 
     return {
         render: {
@@ -31,19 +34,19 @@ export async function createState(config, canvas) {
             sampler: null,
             bindGroup: null,
             shaderCode: null,
-            vertexSize: config.floatsPerVertex * config.vertexMultiplier,
+            vertexSize,
             glyphCanvas: null
         },
         matrices: {
-            uniformValues: new Float32Array(config.floatsInUniformBuffer),
-            matrix: new Float32Array(config.matrixSize),
+            uniformValues,
+            matrix,
         },
         glyphs: {
             numGlyphs: 0,
             width: 0,
             height: 0,
         },
-        canvas: canvas,
+        canvas,
         timing: {
             time: 0,
             fixedDeltaTime: config.timing.fixedDeltaTime,
@@ -54,16 +57,8 @@ export async function createState(config, canvas) {
             deltaTime: 0,
             currentTime: 0,
             frameTime: 0,
-            lastTime: performance.now(),
+            lastTime,
         },
         dependencies
     };
-}
-
-async function _loadDependencies(dependenciesConfig) {
-    const dependencies = {};
-    for (const [key, value] of Object.entries(dependenciesConfig)) {
-        dependencies[key] = (await import(value))[key];
-    }
-    return dependencies;
 }
