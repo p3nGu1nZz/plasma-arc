@@ -4,11 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2023-10-25
+## [Unreleased] - 2024-12-23
 
 ### Added
-- Added `CopyShaders` class to copy shader files to the output directory.
-- Added logging to `EmbedShaders` to indicate the number of shaders embedded.
+- Integrated nodemon for development and production environments.
+- Added nodemon configuration files for development and production.
+- Included clean duration in `CleanSummary`.
+- Enhanced logging with `[plasma-arc]` prefix for better readability.
+- Organized environment configuration into logical groups.
 
 ### Changed
 - Updated `fetchShaderCode` to check for embedded shaders in the global `shaders` constant.
@@ -61,7 +64,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 #### Fixed
 - N/A
-
----
-
-This document will be updated as new versions are released and changes are made. Stay tuned for more updates!
