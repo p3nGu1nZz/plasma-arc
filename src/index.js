@@ -30,16 +30,17 @@ async function Main() {
     const canvas = setupCanvas(config);
     const deps = await loadDependencies(config.dependencies);
     const state = await createState(config, canvas, deps);
+    
+    createCanvas(state, CANVAS, CTX, config);
 
     await Adapter.createAdapter(state);
     await Device.createDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
     
-    createCanvas(state, CANVAS, CTX, config);
     CreateBuffers(state, config);
     GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, config.colors, config, createTextureFromSource);
-    
+
     _gameLoop(state);
 }
 
