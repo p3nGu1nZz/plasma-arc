@@ -14,8 +14,8 @@
  */
 
 // Generates vertex data and initializes textures for the simulation
-export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource) {
-    const glyphData = generateGlyphVerticesForText('Hello\nworld!\nText in\nWebGPU!', COLORS, config, glyphCanvas);
+export function GenerateVertexDataAndTexture(state, glyphCanvas, generateGlyphVerticesForText, colors, config, createTextureFromSource) {
+    const glyphData = generateGlyphVerticesForText('Hello\nworld!\nText in\nWebGPU!', colors, config, glyphCanvas);
     state.webgpu.device.queue.writeBuffer(state.webgpu.vertexBuffer, 0, glyphData.vertexData);
 
     state.webgpu.texture = createTextureFromSource(state.webgpu.device, glyphCanvas, { mips: true });

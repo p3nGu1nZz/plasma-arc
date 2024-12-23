@@ -10,8 +10,8 @@
  */
 
 export async function createState(config) {
-    const dependencies = await loadDependencies(config.dependencies);
-    const canvas = setupCanvas(config.canvas.width, config.canvas.height);
+    const dependencies = await _loadDependencies(config.dependencies);
+    const canvas = _setupCanvas(config.canvas.width, config.canvas.height);
 
     return {
         render: {
@@ -60,7 +60,7 @@ export async function createState(config) {
     };
 }
 
-async function loadDependencies(dependenciesConfig) {
+async function _loadDependencies(dependenciesConfig) {
     const dependencies = {};
     for (const [key, value] of Object.entries(dependenciesConfig)) {
         dependencies[key] = (await import(value))[key];
@@ -68,7 +68,7 @@ async function loadDependencies(dependenciesConfig) {
     return dependencies;
 }
 
-function setupCanvas(width, height) {
+function _setupCanvas(width, height) {
     const canvas = document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas'));
     canvas.width = width;
     canvas.height = height;

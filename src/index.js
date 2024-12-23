@@ -6,13 +6,12 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|GitHub Repository}
  */
 
 const CANVAS = document.createElement('canvas');
 const CTX = CANVAS.getContext('2d');
 
-import { COLORS, RENDER_PASS_DESCRIPTOR } from './wgpu-constants.js';
 import { CONFIG } from './wgpu-config.js';
 
 import { createState } from './wgpu-state.js';
@@ -28,29 +27,29 @@ import { generateGlyphVerticesForText } from './wgpu-text.js';
 async function Main() {
     const state = await createState(CONFIG);
 
-    await InitializeAdapter(state);
+    await _initializeAdapter(state);
     await initializeDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
-    await InitializeResources(state);
+    await _initializeResources(state);
 
-    GameLoop(state);
+    _gameLoop(state);
 }
 
-async function InitializeAdapter(state) {
+async function _initializeAdapter(state) {
     state.webgpu.adapter = await navigator.gpu.requestAdapter();
 }
 
-async function InitializeResources(state) {
+async function _initializeResources(state) {
     state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, CONFIG);
     document.body.appendChild(state.webgpu.glyphCanvas);
     state.webgpu.glyphCanvas.style.backgroundColor = '#222';
 
     CreateBuffers(state, CONFIG);
-    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, COLORS, CONFIG, createTextureFromSource);
+    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, CONFIG.colors, CONFIG, createTextureFromSource);
 }
 
-function FixedUpdate(state) {
+function _fixedUpdate(state) {
     state.timing.time += state.timing.fixedDeltaTime;
 }
 
@@ -62,9 +61,9 @@ function Render(state) {
     const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
     const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
 
-    RENDER_PASS_DESCRIPTOR.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
+    CONFIG.render.options.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
     const encoder = state.webgpu.device.createCommandEncoder();
-    const pass = encoder.beginRenderPass(RENDER_PASS_DESCRIPTOR);
+    const pass = encoder.beginRenderPass(CONFIG.render.options);
 
     pass.setPipeline(state.webgpu.pipeline);
     mat4.rotateY(viewProjectionMatrix, state.timing.time, state.matrices.matrix);
@@ -81,8 +80,8 @@ function Render(state) {
     state.webgpu.device.queue.submit([encoder.finish()]);
 }
 
-function GameLoop(state) {
-    function Tick(state) {
+function _gameLoop(state) {
+    function _tick(state) {
         state.timing.currentTime = performance.now();
         state.timing.frameTime = (state.timing.currentTime - state.timing.lastTime) / 1000;
         state.timing.lastTime = state.timing.currentTime;
@@ -90,15 +89,15 @@ function GameLoop(state) {
         state.timing.accumulator += state.timing.deltaTime;
 
         while (state.timing.accumulator >= state.timing.fixedDeltaTime) {
-            FixedUpdate(state);
+            _fixedUpdate(state);
             state.timing.accumulator -= state.timing.fixedDeltaTime;
         }
 
         Render(state);
-        setTimeout(() => Tick(state), state.timing.frameDuration);
+        setTimeout(() => _tick(state), state.timing.frameDuration);
     }
 
-    Tick(state);
+    _tick(state);
 }
 
 // Start the simulation

@@ -6,7 +6,7 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
- * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|GitHub Repository}
  */
 
 export const CONFIG = {
@@ -32,8 +32,23 @@ export const CONFIG = {
     },
     render: {
         zNear: 0.001,
-        zFar: 50
+        zFar: 50,
+        options: Object.freeze({
+            label: 'canvas render pass',
+            colorAttachments: [{
+                clearValue: [0.3, 0.3, 0.3, 1],
+                loadOp: 'clear',
+                storeOp: 'store',
+            }],
+        })
     },
+    colors: [
+        [1, 1, 0, 1],
+        [0, 1, 1, 1],
+        [1, 0, 1, 1],
+        [1, 0, 0, 1],
+        [0, 0.5, 1, 1]
+    ],
     timing: {
         fixedDeltaTime: 1 / 60,
         maxFrameTime: 0.25,
