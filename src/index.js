@@ -23,88 +23,86 @@ import { InitializeShaders } from './wgpu-shader.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
 
-// Main asynchronous function to initialize and run the simulation
-(async () => {
+async function Main() {
     const state = createState(config);
 
-    async function Main() {
-        await InitializeAdapter(state);
-        await InitializeCanvas(state);
-        await initializeDevice(state);
-        await InitializeShaders(state);
-        await InitializePipeline(state);
-        await InitializeResources(state);
+    await InitializeAdapter(state);
+    await InitializeCanvas(state);
+    await initializeDevice(state);
+    await InitializeShaders(state);
+    await InitializePipeline(state);
+    await InitializeResources(state);
 
-        GameLoop(state);
-    }
+    GameLoop(state);
+}
 
-    async function InitializeAdapter(state) {
-        state.webgpu.adapter = await navigator.gpu.requestAdapter();
-    }
+async function InitializeAdapter(state) {
+    state.webgpu.adapter = await navigator.gpu.requestAdapter();
+}
 
-    async function InitializeCanvas(state) {
-        state.canvas.width = config.canvas.width;
-        state.canvas.height = config.canvas.height;
-    }
+async function InitializeCanvas(state) {
+    state.canvas.width = config.canvas.width;
+    state.canvas.height = config.canvas.height;
+}
 
-    async function InitializeResources(state) {
-        state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, config);
-        document.body.appendChild(state.webgpu.glyphCanvas);
-        state.webgpu.glyphCanvas.style.backgroundColor = '#222';
+async function InitializeResources(state) {
+    state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, config);
+    document.body.appendChild(state.webgpu.glyphCanvas);
+    state.webgpu.glyphCanvas.style.backgroundColor = '#222';
 
-        CreateBuffers(state, config);
-        GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource);
-    }
+    CreateBuffers(state, config);
+    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource);
+}
 
-    function FixedUpdate(state) {
-        state.timing.time += state.timing.fixedDeltaTime;
-    }
+function FixedUpdate(state) {
+    state.timing.time += state.timing.fixedDeltaTime;
+}
 
-    function Render(state) {
-        const fov = 60 * Math.PI / 180;
-        const aspect = state.canvas.clientWidth / state.canvas.clientHeight;
-        const projectionMatrix = mat4.perspective(fov, aspect, config.render.zNear, config.render.zFar);
-        const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
-        const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
+function Render(state) {
+    const fov = 60 * Math.PI / 180;
+    const aspect = state.canvas.clientWidth / state.canvas.clientHeight;
+    const projectionMatrix = mat4.perspective(fov, aspect, config.render.zNear, config.render.zFar);
+    const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
+    const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
 
-        RENDER_PASS_DESCRIPTOR.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
-        const encoder = state.webgpu.device.createCommandEncoder();
-        const pass = encoder.beginRenderPass(RENDER_PASS_DESCRIPTOR);
+    RENDER_PASS_DESCRIPTOR.colorAttachments[0].view = state.webgpu.context.getCurrentTexture().createView();
+    const encoder = state.webgpu.device.createCommandEncoder();
+    const pass = encoder.beginRenderPass(RENDER_PASS_DESCRIPTOR);
 
-        pass.setPipeline(state.webgpu.pipeline);
-        mat4.rotateY(viewProjectionMatrix, state.timing.time, state.matrices.matrix);
-        mat4.translate(state.matrices.matrix, [-state.glyphs.width / 2, -state.glyphs.height / 2, 0], state.matrices.matrix);
+    pass.setPipeline(state.webgpu.pipeline);
+    mat4.rotateY(viewProjectionMatrix, state.timing.time, state.matrices.matrix);
+    mat4.translate(state.matrices.matrix, [-state.glyphs.width / 2, -state.glyphs.height / 2, 0], state.matrices.matrix);
 
-        state.webgpu.device.queue.writeBuffer(state.webgpu.uniformBuffer, 0, state.matrices.uniformValues);
+    state.webgpu.device.queue.writeBuffer(state.webgpu.uniformBuffer, 0, state.matrices.uniformValues);
 
-        pass.setBindGroup(0, state.webgpu.bindGroup);
-        pass.setVertexBuffer(0, state.webgpu.vertexBuffer);
-        pass.setIndexBuffer(state.webgpu.indexBuffer, 'uint32');
-        pass.drawIndexed(state.glyphs.numGlyphs * 6);
-        pass.end();
+    pass.setBindGroup(0, state.webgpu.bindGroup);
+    pass.setVertexBuffer(0, state.webgpu.vertexBuffer);
+    pass.setIndexBuffer(state.webgpu.indexBuffer, 'uint32');
+    pass.drawIndexed(state.glyphs.numGlyphs * 6);
+    pass.end();
 
-        state.webgpu.device.queue.submit([encoder.finish()]);
-    }
+    state.webgpu.device.queue.submit([encoder.finish()]);
+}
 
-    function GameLoop(state) {
-        function Tick(state) {
-            state.timing.currentTime = performance.now();
-            state.timing.frameTime = (state.timing.currentTime - state.timing.lastTime) / 1000;
-            state.timing.lastTime = state.timing.currentTime;
-            state.timing.deltaTime = Math.min(state.timing.frameTime, state.timing.maxFrameTime);
-            state.timing.accumulator += state.timing.deltaTime;
+function GameLoop(state) {
+    function Tick(state) {
+        state.timing.currentTime = performance.now();
+        state.timing.frameTime = (state.timing.currentTime - state.timing.lastTime) / 1000;
+        state.timing.lastTime = state.timing.currentTime;
+        state.timing.deltaTime = Math.min(state.timing.frameTime, state.timing.maxFrameTime);
+        state.timing.accumulator += state.timing.deltaTime;
 
-            while (state.timing.accumulator >= state.timing.fixedDeltaTime) {
-                FixedUpdate(state);
-                state.timing.accumulator -= state.timing.fixedDeltaTime;
-            }
-
-            Render(state);
-            setTimeout(() => Tick(state), state.timing.frameDuration);
+        while (state.timing.accumulator >= state.timing.fixedDeltaTime) {
+            FixedUpdate(state);
+            state.timing.accumulator -= state.timing.fixedDeltaTime;
         }
 
-        Tick(state);
+        Render(state);
+        setTimeout(() => Tick(state), state.timing.frameDuration);
     }
 
-    await Main();
-})();
+    Tick(state);
+}
+
+// Call the main function to start the simulation
+Main();
