@@ -16,7 +16,7 @@ import { config } from './wgpu-config.js';
 
 import { createState } from './wgpu-state.js';
 import { Adapter } from './wgpu-adapter.js';
-import { initializeDevice } from './wgpu-device.js';
+import { Device } from './wgpu-device.js';
 import { CreateBuffers } from './wgpu-buffer.js';
 import { InitializePipeline } from './wgpu-pipeline.js';
 
@@ -32,18 +32,15 @@ async function Main() {
     const state = await createState(config, canvas, deps);
 
     await Adapter.createAdapter(state);
-    await initializeDevice(state);
+    await Device.createDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
-    await _initializeResources(state);
-
-    _gameLoop(state);
-}
-
-async function _initializeResources(state) {
+    
     createCanvas(state, CANVAS, CTX, config);
     CreateBuffers(state, config);
     GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, config.colors, config, createTextureFromSource);
+    
+    _gameLoop(state);
 }
 
 function _fixedUpdate(state) {
@@ -97,5 +94,4 @@ function _gameLoop(state) {
     _tick(state);
 }
 
-// Start the simulation
 Main();
