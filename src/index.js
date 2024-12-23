@@ -12,7 +12,7 @@
 const CANVAS = document.createElement('canvas');
 const CTX = CANVAS.getContext('2d');
 
-import { CONFIG } from './wgpu-config.js';
+import { config } from './wgpu-config.js';
 
 import { createState } from './wgpu-state.js';
 import { initializeDevice } from './wgpu-device.js';
@@ -23,10 +23,11 @@ import { createTextureFromSource } from './wgpu-utility.js';
 import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
-import { CreateCanvas } from './wgpu-canvas.js';
+import { createCanvas, setupCanvas } from './wgpu-canvas.js';
 
 async function Main() {
-    const state = await createState(CONFIG);
+    const canvas = setupCanvas(config);
+    const state = await createState(config, canvas);
 
     await _initializeAdapter(state);
     await initializeDevice(state);
@@ -42,9 +43,9 @@ async function _initializeAdapter(state) {
 }
 
 async function _initializeResources(state) {
-    CreateCanvas(state, CANVAS, CTX, CONFIG);
-    CreateBuffers(state, CONFIG);
-    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, CONFIG.colors, CONFIG, createTextureFromSource);
+    createCanvas(state, CANVAS, CTX, config);
+    CreateBuffers(state, config);
+    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, config.colors, config, createTextureFromSource);
 }
 
 function _fixedUpdate(state) {

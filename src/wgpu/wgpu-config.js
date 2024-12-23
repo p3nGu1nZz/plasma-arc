@@ -9,7 +9,7 @@
  * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-export const CONFIG = {
+export const config = {
     glyphsAcrossTexture: 16,
     glyphWidth: 32,
     glyphHeight: 40,

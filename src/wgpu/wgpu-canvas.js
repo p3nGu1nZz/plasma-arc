@@ -9,8 +9,7 @@
  * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-// Creates and appends the glyph canvas to the document body
-export function CreateCanvas(state, canvas, ctx, config) {
+export function createCanvas(state, canvas, ctx, config) {
     const glyphCanvas = _generateGlyphTextureAtlas(canvas, ctx, config);
     glyphCanvas.style.backgroundColor = config.webgpu.glyphCanvas.style.backgroundColor;
     document.body.appendChild(glyphCanvas);
@@ -18,7 +17,6 @@ export function CreateCanvas(state, canvas, ctx, config) {
     return glyphCanvas;
 }
 
-// Function for generating glyph texture atlas
 function _generateGlyphTextureAtlas(canvas, ctx, config) {
     canvas.width = config.canvas.width;
     canvas.height = config.canvas.height;
@@ -32,5 +30,12 @@ function _generateGlyphTextureAtlas(canvas, ctx, config) {
         x = (x + config.glyphWidth) % canvas.width;
         if (x === 0) y += config.glyphHeight;
     }
+    return canvas;
+}
+
+export function setupCanvas(config) {
+    const canvas = document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas'));
+    canvas.width = config.canvas.width;
+    canvas.height = config.canvas.height;
     return canvas;
 }

@@ -9,9 +9,8 @@
  * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-export async function createState(config) {
+export async function createState(config, canvas) {
     const dependencies = await _loadDependencies(config.dependencies);
-    const canvas = _setupCanvas(config.canvas.width, config.canvas.height);
 
     return {
         render: {
@@ -67,11 +66,4 @@ async function _loadDependencies(dependenciesConfig) {
         dependencies[key] = (await import(value))[key];
     }
     return dependencies;
-}
-
-function _setupCanvas(width, height) {
-    const canvas = document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas'));
-    canvas.width = width;
-    canvas.height = height;
-    return canvas;
 }
