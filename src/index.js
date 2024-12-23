@@ -29,7 +29,6 @@ async function Main() {
     const state = await createState(CONFIG);
 
     await InitializeAdapter(state);
-    await InitializeCanvas(state);
     await initializeDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
@@ -40,11 +39,6 @@ async function Main() {
 
 async function InitializeAdapter(state) {
     state.webgpu.adapter = await navigator.gpu.requestAdapter();
-}
-
-async function InitializeCanvas(state) {
-    state.canvas.width = CONFIG.canvas.width;
-    state.canvas.height = CONFIG.canvas.height;
 }
 
 async function InitializeResources(state) {
@@ -64,7 +58,7 @@ function Render(state) {
     const { mat4 } = state.dependencies;
     const fov = 60 * Math.PI / 180;
     const aspect = state.canvas.clientWidth / state.canvas.clientHeight;
-    const projectionMatrix = mat4.perspective(fov, aspect, CONFIG.render.zNear, CONFIG.render.zFar);
+    const projectionMatrix = mat4.perspective(fov, aspect, state.render.zNear, state.render.zFar);
     const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
     const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
 
@@ -107,5 +101,5 @@ function GameLoop(state) {
     Tick(state);
 }
 
-// Call the main function to start the simulation
+// Start the simulation
 Main();

@@ -6,15 +6,18 @@
  * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
 export async function createState(config) {
-    const dependencies = {};
-    for (const [key, value] of Object.entries(config.dependencies)) {
-        dependencies[key] = (await import(value))[key];
-    }
+    const dependencies = await loadDependencies(config.dependencies);
+    const canvas = setupCanvas(config.canvas.width, config.canvas.height);
 
     return {
+        render: {
+            zNear: config.render.zNear,
+            zFar: config.render.zFar
+        },
         webgpu: {
             adapter: null,
             device: null,
@@ -40,7 +43,7 @@ export async function createState(config) {
             width: 0,
             height: 0,
         },
-        canvas: document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas')),
+        canvas: canvas,
         timing: {
             time: 0,
             fixedDeltaTime: config.timing.fixedDeltaTime,
@@ -55,4 +58,19 @@ export async function createState(config) {
         },
         dependencies
     };
+}
+
+async function loadDependencies(dependenciesConfig) {
+    const dependencies = {};
+    for (const [key, value] of Object.entries(dependenciesConfig)) {
+        dependencies[key] = (await import(value))[key];
+    }
+    return dependencies;
+}
+
+function setupCanvas(width, height) {
+    const canvas = document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas'));
+    canvas.width = width;
+    canvas.height = height;
+    return canvas;
 }
