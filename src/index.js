@@ -24,12 +24,11 @@ import { createTextureFromSource, loadDependencies } from './wgpu-utility.js';
 import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
-import { createCanvas, setupCanvas } from './wgpu-canvas.js';
+import { createCanvas } from './wgpu-canvas.js';
 
 async function Main() {
-    const canvas = setupCanvas(config);
     const deps = await loadDependencies(config.dependencies);
-    const state = await createState(config, canvas, deps);
+    const state = await createState(config, deps);
     
     createCanvas(state, CANVAS, CTX, config);
 

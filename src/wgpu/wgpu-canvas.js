@@ -10,6 +10,7 @@
  */
 
 export function createCanvas(state, canvas, ctx, config) {
+    state.canvas = _setupCanvas(config);
     const glyphCanvas = _generateGlyphTextureAtlas(canvas, ctx, config);
     glyphCanvas.style.backgroundColor = config.webgpu.glyphCanvas.style.backgroundColor;
     document.body.appendChild(glyphCanvas);
@@ -33,7 +34,7 @@ function _generateGlyphTextureAtlas(canvas, ctx, config) {
     return canvas;
 }
 
-export function setupCanvas(config) {
+function _setupCanvas(config) {
     const canvas = document.querySelector('canvas') || document.body.appendChild(document.createElement('canvas'));
     canvas.width = config.canvas.width;
     canvas.height = config.canvas.height;

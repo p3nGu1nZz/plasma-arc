@@ -9,7 +9,7 @@
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-export async function createState(config, canvas, dependencies) {
+export async function createState(config, dependencies) {
     const uniformValues = new Float32Array(config.floatsInUniformBuffer);
     const matrix = new Float32Array(config.matrixSize);
     const vertexSize = config.floatsPerVertex * config.vertexMultiplier;
@@ -46,7 +46,7 @@ export async function createState(config, canvas, dependencies) {
             width: 0,
             height: 0,
         },
-        canvas,
+        canvas: null,
         timing: {
             time: 0,
             fixedDeltaTime: config.timing.fixedDeltaTime,
