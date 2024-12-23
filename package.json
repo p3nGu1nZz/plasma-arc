@@ -1,11 +1,12 @@
 {
   "name": "plasma-arc",
   "version": "1.0.0",
-  "description": "Plasma Arc Project - High-performance plasma arc simulation using WebGPU.",
+  "description": "Plasma Arc Project ⚡ High-performance plasma arc simulation using WebGPU.",
   "type": "module",
   "main": "scripts/server.js",
   "scripts": {
-    "start": "node scripts/server.js",
+    "start": "cross-env NODE_ENV=production nodemon --config config/production.json scripts/server.js",
+    "dev": "cross-env NODE_ENV=development nodemon --config config/development.json scripts/server.js",
     "test": "jest",
     "build": "node scripts/build.js",
     "clean": "node scripts/clean.js",
@@ -61,10 +62,12 @@
     "express": "^4.21.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "dotenv": "^16.4.7",
     "glob": "^11.0.0",
     "jest": "^29.7.0",
     "minimatch": "^10.0.1",
+    "nodemon": "^3.1.9",
     "pretty-error": "^4.0.0",
     "terser": "^5.37.0"
   }

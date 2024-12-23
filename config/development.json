@@ -1,0 +1,23 @@
+{
+    "restartable": "rs",
+    "ignore": [
+      "node_modules/**/node_modules"
+    ],
+    "verbose": true,
+    "execMap": {
+      "js": "node --inspect"
+    },
+    "watch": [
+      "src",
+      "public",
+      "scripts"
+    ],
+    "ext": "js,json",
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "log": {
+      "prefix": "[plasma-arc]"
+    }
+  }
+  

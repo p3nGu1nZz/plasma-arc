@@ -9,14 +9,19 @@
  * @contact rawsonkara@gmail.com
  */
 
+const getGlobal = () => (typeof global !== 'undefined' ? global : window);
+
 export async function fetchShaderCode(source) {
+    const globalOrWindow = getGlobal();
+    let shaderCode;
+
     try {
         switch (true) {
             case typeof source !== 'string':
                 throw new Error('Invalid shader source type');
 
-            case typeof global.SHADERS !== 'undefined' && source in global.SHADERS:
-                let shaderCode = global.SHADERS[source];
+            case typeof globalOrWindow.SHADERS !== 'undefined' && source in globalOrWindow.SHADERS:
+                shaderCode = globalOrWindow.SHADERS[source];
                 if (shaderCode.startsWith('`') && shaderCode.endsWith('`')) {
                     shaderCode = shaderCode.slice(1, -1).trim();
                 }
@@ -25,7 +30,8 @@ export async function fetchShaderCode(source) {
             default:
                 const response = await fetch(source);
                 shaderCode = await response.text();
-                global.SHADERS[source] = `\`${shaderCode}\``;
+                globalOrWindow.SHADERS = globalOrWindow.SHADERS || {};
+                globalOrWindow.SHADERS[source] = `\`${shaderCode}\``;
                 return shaderCode;
         }
     } catch (err) {

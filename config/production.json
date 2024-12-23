@@ -1,0 +1,9 @@
+{
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "log": {
+    "prefix": "[plasma-arc]"
+  },
+  "restartable": false
+}
