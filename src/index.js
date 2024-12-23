@@ -1,11 +1,12 @@
 /**
- * @file index.js
+ * @file src/index.js
  * @description Main entry point for the Plasma Arc Project.
  * @version 1.0.0
  * @license MIT
- * @author K. Rawson
+ * @author Kara Rawson
  * @contact rawsonkara@gmail.com
  * @see {@link https://github.com/p3nGu1nZz/plasma-arc|GitHub Repository}
+ * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
 import { mat4 } from 'https://webgpufundamentals.org/3rdparty/wgpu-matrix.module.js';
@@ -19,7 +20,7 @@ import { CreateBuffers } from './wgpu-buffer.js';
 import { InitializePipeline } from './wgpu-pipeline.js';
 
 import { generateGlyphTextureAtlas, createTextureFromSource } from './wgpu-utility.js';
-import { InitializeShaders } from './wgpu-shader.js';
+import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
 
@@ -104,5 +105,4 @@ function GameLoop(state) {
     Tick(state);
 }
 
-// Call the main function to start the simulation
 Main();
