@@ -9,8 +9,11 @@
  * @see {@link https://huggingface.co/spaces/p3nGu1nZz/plasma-arc|Hugging Face Space}
  */
 
-import { CANVAS, CTX, COLORS, RENDER_PASS_DESCRIPTOR } from './wgpu-constants.js';
-import { config } from './wgpu-config.js';
+const CANVAS = document.createElement('canvas');
+const CTX = CANVAS.getContext('2d');
+
+import { COLORS, RENDER_PASS_DESCRIPTOR } from './wgpu-constants.js';
+import { CONFIG } from './wgpu-config.js';
 
 import { createState } from './wgpu-state.js';
 import { initializeDevice } from './wgpu-device.js';
@@ -23,7 +26,7 @@ import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
 
 async function Main() {
-    const state = await createState(config);
+    const state = await createState(CONFIG);
 
     await InitializeAdapter(state);
     await InitializeCanvas(state);
@@ -40,17 +43,17 @@ async function InitializeAdapter(state) {
 }
 
 async function InitializeCanvas(state) {
-    state.canvas.width = config.canvas.width;
-    state.canvas.height = config.canvas.height;
+    state.canvas.width = CONFIG.canvas.width;
+    state.canvas.height = CONFIG.canvas.height;
 }
 
 async function InitializeResources(state) {
-    state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, config);
+    state.webgpu.glyphCanvas = generateGlyphTextureAtlas(CANVAS, CTX, CONFIG);
     document.body.appendChild(state.webgpu.glyphCanvas);
     state.webgpu.glyphCanvas.style.backgroundColor = '#222';
 
-    CreateBuffers(state, config);
-    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, COLORS, config, createTextureFromSource);
+    CreateBuffers(state, CONFIG);
+    GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, COLORS, CONFIG, createTextureFromSource);
 }
 
 function FixedUpdate(state) {
@@ -61,7 +64,7 @@ function Render(state) {
     const { mat4 } = state.dependencies;
     const fov = 60 * Math.PI / 180;
     const aspect = state.canvas.clientWidth / state.canvas.clientHeight;
-    const projectionMatrix = mat4.perspective(fov, aspect, config.render.zNear, config.render.zFar);
+    const projectionMatrix = mat4.perspective(fov, aspect, CONFIG.render.zNear, CONFIG.render.zFar);
     const viewMatrix = mat4.lookAt([0, 0, 5], [0, 0, 0], [0, 1, 0]);
     const viewProjectionMatrix = mat4.multiply(projectionMatrix, viewMatrix);
 
