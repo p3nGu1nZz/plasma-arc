@@ -13,38 +13,36 @@ const CANVAS = document.createElement('canvas');
 const CTX = CANVAS.getContext('2d');
 
 import { config } from './wgpu-config.js';
-
 import { createState } from './wgpu-state.js';
 import { Adapter } from './wgpu-adapter.js';
 import { Device } from './wgpu-device.js';
 import { CreateBuffers } from './wgpu-buffer.js';
 import { InitializePipeline } from './wgpu-pipeline.js';
-
 import { createTextureFromSource, loadDependencies } from './wgpu-utility.js';
 import { InitializeShaders } from './wgpu-shaders.js';
 import { GenerateVertexDataAndTexture } from './wgpu-texture.js';
 import { generateGlyphVerticesForText } from './wgpu-text.js';
 import { Canvas } from './wgpu-canvas.js';
+import { WgpuWorker } from './wgpu-workers.js';
 
 async function Main() {
     const deps = await loadDependencies(config.dependencies);
     const state = await createState(config, deps);
-    
+
     await Canvas.createCanvas(state, CANVAS, CTX, config);
     await Adapter.createAdapter(state);
     await Device.createDevice(state);
     await InitializeShaders(state);
     await InitializePipeline(state);
-    
+
     CreateBuffers(state, config);
     GenerateVertexDataAndTexture(state, state.webgpu.glyphCanvas, generateGlyphVerticesForText, config.colors, config, createTextureFromSource);
 
+    const wgpuWorker = new WgpuWorker();
     _gameLoop(state);
 }
 
-function _fixedUpdate(state) {
-    state.timing.time += state.timing.fixedDeltaTime;
-}
+function _fixedUpdate(state) {}
 
 function Render(state) {
     const { mat4 } = state.dependencies;
@@ -82,6 +80,7 @@ function _gameLoop(state) {
         state.timing.accumulator += state.timing.deltaTime;
 
         while (state.timing.accumulator >= state.timing.fixedDeltaTime) {
+            state.timing.time += state.timing.fixedDeltaTime;
             _fixedUpdate(state);
             state.timing.accumulator -= state.timing.fixedDeltaTime;
         }
@@ -93,5 +92,4 @@ function _gameLoop(state) {
     _tick(state);
 }
 
-// Start the simulation
 Main();
